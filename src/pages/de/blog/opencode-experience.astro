@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import SubpageLayout from '../../../components/SubpageLayout.astro';
+import type { Badge } from '../../../components/SubpageLayout.astro';
+
+const lang = 'de';
+---
+
+<BaseLayout title="BAUEN MIT SILIZIUM // CAPSLOCKED.DEV" brutalistRadius={true} lang={lang} description="Meine erste Session beim Bau von capslocked.dev mit OpenCode — einem KI-Coding-Agenten, der Code schreibt, reviewt und ausliefert.">
+  <Header lang={lang} activePage="blog" variant="blog" altLangUrl="/blog/opencode-experience" />
+  <SubpageLayout
+    lang={lang}
+    badges={[
+      { text: '10 MAI 2025', variant: 'filled' },
+      { text: '5 MIN LESEZEIT', variant: 'outline' },
+      { text: 'ENTWICKLUNG', variant: 'accent' },
+    ] as Badge[]}
+    title="Bauen mit Silizium"
+    description="Meine erste Session beim Bau von capslocked.dev mit OpenCode — einem KI-Coding-Agenten, der Code schreibt, reviewt und alongside Ihnen ausliefert. Eine Reflexion über Mensch-Maschine-Kollaboration und die Zukunft des Handwerks."
+    heroImage={{
+      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByiEpb0lLdtldq3y0vDZJnEzQo4bXYHowU5tHUAdX2XGHNtTToLcV-Yf_TvHlqeU30xkDpFq3oMYkISWkadnyWN4e1_-HNYx5-S9oWUWSeTH11nZtDZlF6vYocHQGJWFbSun3Hf6iNIr_kaNIb56ksEWV_rVP_Hb0IZFHj_fGnzPtzhaVcmuRxSXgDMdhKN3JRMZss2RMqMO-lABCSFRwc9SKJInEP7QuenvoMdUqiGWroM2fleKePtdyeVGXUWxibV1hwehYt-g',
+      alt: 'Terminal-Oberfläche mit Code-Generierung',
+    }}
+  >
+    <h2 class="font-headline-md text-headline-md border-b border-primary pb-xs uppercase">01 // KONTEXT</h2>
+    <p>
+      OpenCode ist ein terminalbasierter KI-Coding-Agent. Sie beschreiben, was Sie wollen, und er schreibt den Code — Gerüstbau, Refactoring, Debugging, sogar Architektur. Er läuft lokal, liest Ihre Codebasis und schlägt Änderungen vor, die Sie akzeptieren, ablehnen oder modifizieren können.
+    </p>
+    <p>
+      Ich habe beschlossen, ihn für den Bau dieser Seite zu nutzen. Nicht weil ich es nicht selbst könnte — ich schreibe seitdem HTML, als Tabellen-Layouts modern waren — sondern weil ich sehen wollte, was die Maschine mit einer so meinungsstarken Designphilosophie wie dem Brutalismus anfangen würde. Würde sie die Kanten abrunden? Würde sie versuchen, die Ecken zu runden?
+    </p>
+    <div class="my-lg border-thin border-outline p-md bg-surface-container-low font-label-md text-label-md overflow-hidden">
+      <div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+        <span class="text-secondary font-bold">TERMINAL // SITZUNG.LOG</span>
+        <span class="text-outline">bash</span>
+      </div>
+      <pre class="text-primary-fixed overflow-x-auto" tabindex="0" role="region" aria-label="Terminal-Sitzungsprotokoll"><code>$ opencode "diese HTML-Templates in ein Astro-Projekt konvertieren"
+$ opencode "den gemeinsamen Header und Footer in Komponenten extrahieren"
+$ opencode "einen pixellierten Hover-Effekt zur Projektkarte hinzufügen"
+$ opencode "den Dark-Mode-Toggle zum Laufen bringen"
+$ echo "SITZUNG_ABGESCHLOSSEN: 47_DATEIEN_ERSTELLT"</code></pre>
+    </div>
+
+    <h2 class="font-headline-md text-headline-md border-b border-primary pb-xs uppercase">02 // PROZESS</h2>
+    <p>
+      Das Erste, was mir auffiel: Der Agent ist schnell. Was mich einen Abend gekostet hätte — gemeinsame Layouts extrahieren, Tailwind konfigurieren, statische Pfade einrichten — erledigte er in unter einer Minute. Das Gerüst war solide. Die Komponentenstruktur war sauber. Er bewahrte sogar die beabsichtigten Design-Inkonsistenzen (wie die unterschiedlichen Border-Radius-Werte zwischen Seiten), ohne sie infrage zu stellen.
+    </p>
+    <p>
+      Aber hier wurde es interessant. Als ich den pixellierten Hover-Effekt für das Projektkartenbild anforderte, schlug er zunächst einen JavaScript-Canvas-basierten Ansatz vor. Schwer. Unnötig. Ich widersprach: „Nur CSS." Er kam mit einer Filter- und Grid-Overlay-Technik zurück. Besser. Noch nicht ganz richtig. Wir iterierten. Drei Runden später hatten wir eine Lösung, die ein Pseudo-Element-Grid-Muster mit Kontrastskalierung verwendete — reines CSS, keine Laufzeitkosten, brutalistisch wie die Hölle.
+    </p>
+    <ul class="list-none space-y-xs">
+      <li class="flex items-start gap-xs">
+        <span class="text-secondary font-bold">&gt;&gt;</span>
+        <span>Der Agent glänzt beim Gerüstbau und bei Boilerplate. Komponentenextraktion, Konfiguration, Dateistruktur — in Sekunden erledigt.</span>
+      </li>
+      <li class="flex items-start gap-xs">
+        <span class="text-secondary font-bold">&gt;&gt;</span>
+        <span>Designentscheidungen brauchen immer noch ein menschliches Auge. Er schlug abgerundete Ecken auf der Blog-Seite vor. Ich musste die 0px-Radius-Regel durchsetzen.</span>
+      </li>
+      <li class="flex items-start gap-xs">
+        <span class="text-secondary font-bold">&gt;&gt;</span>
+        <span>Das Hin und Her ist der Ort des Mehrwerts. Nicht der erste Entwurf, sondern die dritte oder vierte Überarbeitung nach Ihrem Widerspruch.</span>
+      </li>
+    </ul>
+
+    <h2 class="font-headline-md text-headline-md border-b border-primary pb-xs uppercase">03 // FAZIT</h2>
+    <p>
+      KI-gestützte Entwicklung ist kein Ersatz. Sie ist Verstärkung. Der Agent hat keinen Geschmack. Er hat keine ästhetische Philosophie. Er steht nicht um 3 Uhr nachts auf und überlegt, ob ein 3px-Rand zu dick oder nicht dick genug ist. Aber er kann Ihren Geschmack in einer Geschwindigkeit umsetzen, die jedem Einzelentwickler schwindelig würde.
+    </p>
+    <p>
+      Das brutale Web braucht menschliche Absicht. Die Maschine liefert die Arbeit. Zusammen bauen sie etwas, das keiner allein bauen könnte. Diese Seite ist der Beweis.
+    </p>
+    <blockquote class="border-l-thick border-secondary pl-md py-xs my-lg italic text-body-lg">
+      „Das Raster ist die Struktur. Die Maschine ist der Beschleuniger. Der Mensch ist der Architekt."
+    </blockquote>
+  </SubpageLayout>
+  <Footer lang={lang} />
+</BaseLayout>

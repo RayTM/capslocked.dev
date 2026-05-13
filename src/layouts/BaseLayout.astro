@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  brutalistRadius?: boolean;
+  gridBg?: boolean;
+  lang?: string;
+}
+
+const { title, description = '', brutalistRadius = false, gridBg = false, lang = 'en' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <!-- Prevent flash of wrong theme -->
+  <script is:inline>
+    (function() {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      } else if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+</head>
+<body class:list={[
+  'bg-background text-on-background font-body-md min-h-screen selection:bg-secondary-container selection:text-white',
+  { 'grid-bg': gridBg, 'brutalist-radius': brutalistRadius },
+]}>
+  <!-- CRT TV theme wipe overlay -->
+  <div id="theme-wipe"></div>
+  <slot />
+</body>
+<script is:inline>
+  /* ── Theme toggle with CRT TV wipe ── */
+  function toggleTheme() {
+    var html = document.documentElement;
+    var wipe = document.getElementById('theme-wipe');
+    if (!wipe) return;
+    var isDark = html.classList.contains('dark');
+    var newDark = !isDark;
+
+    if (wipe.classList.contains('animating')) return;
+
+    wipe.className = isDark ? 'is-dark' : 'is-light';
+    wipe.classList.add('animating');
+
+    if (newDark) {
+      html.classList.remove('light');
+      html.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      html.classList.remove('dark');
+      html.classList.add('light');
+      localStorage.setItem('theme', 'light');
+    }
+
+    var icons = document.querySelectorAll('[data-theme-icon]');
+    icons.forEach(function(icon) {
+      icon.textContent = newDark ? 'dark_mode' : 'light_mode';
+    });
+
+    wipe.addEventListener('animationend', function onEnd() {
+      wipe.removeEventListener('animationend', onEnd);
+      wipe.className = '';
+    });
+  }
+
+  function toggleMobileMenu() {
+    var menu = document.getElementById('mobile-menu');
+    var toggle = document.getElementById('mobile-menu-toggle');
+    if (!menu || !toggle) return;
+    var isOpen = !menu.classList.contains('hidden');
+    if (isOpen) {
+      menu.classList.add('hidden');
+      toggle.textContent = 'menu';
+    } else {
+      menu.classList.remove('hidden');
+      toggle.textContent = 'close';
+    }
+  }
+
+  window.toggleTheme = toggleTheme;
+  window.toggleMobileMenu = toggleMobileMenu;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var isDark = document.documentElement.classList.contains('dark');
+    document.querySelectorAll('[data-theme-icon]').forEach(function(icon) {
+      icon.textContent = isDark ? 'dark_mode' : 'light_mode';
+    });
+
+    if (window.location.hash) {
+      var target = document.querySelector(window.location.hash);
+      if (target) {
+        setTimeout(function() {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  });
+</script>
+</html>

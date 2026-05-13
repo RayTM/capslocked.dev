@@ -1,0 +1,26 @@
+---
+import type { Post } from '../data/posts';
+import { postHref } from '../data/posts';
+
+interface Props {
+  post: Post;
+  lang: string;
+}
+
+const { post, lang } = Astro.props;
+const tr = post.translations[lang] || post.translations.en;
+const href = postHref(post.slug, lang);
+---
+
+<a
+  class="group flex flex-col md:flex-row justify-between items-start md:items-center p-md border-thin border-primary hover-fill-accent transition-colors cursor-pointer"
+  href={href}
+>
+  <div class="flex flex-col md:flex-row md:items-center gap-md">
+    <span class="font-label-md text-label-md text-secondary group-hover:text-white">{tr.date}</span>
+    <h3 class="font-headline-md text-headline-md uppercase group-hover:text-white">{tr.title}</h3>
+  </div>
+  {post.icon && (
+    <span class="material-symbols-outlined text-primary group-hover:text-white">{post.icon}</span>
+  )}
+</a>

@@ -1,0 +1,26 @@
+---
+import type { Link } from '../data/links';
+
+interface Props {
+  link: Link;
+  lang: string;
+}
+
+const { link, lang } = Astro.props;
+const tr = link.translations[lang] || link.translations.en;
+const linkAttrs = link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+<a
+  class="group flex justify-between items-center p-md border-thin border-primary hover-fill-accent transition-colors cursor-pointer"
+  href={link.href}
+  {...linkAttrs}
+>
+  <div class="flex items-center gap-md">
+    <span class="font-label-md text-label-md text-secondary group-hover:text-white">{tr.label}</span>
+    <span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-white">{tr.description}</span>
+  </div>
+  {link.icon && (
+    <span class="material-symbols-outlined text-primary group-hover:text-white">{link.icon}</span>
+  )}
+</a>

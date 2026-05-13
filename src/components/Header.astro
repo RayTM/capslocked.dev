@@ -1,0 +1,70 @@
+---
+import { t } from '../data/i18n';
+
+interface Props {
+  lang: string;
+  variant?: 'startpage' | 'blog' | 'project';
+  activePage?: 'projects' | 'blog' | 'connect';
+  altLangUrl: string;
+}
+
+const { lang, variant = 'startpage', activePage = '', altLangUrl } = Astro.props;
+
+const homeHref = lang === 'en' ? '/' : '/de/';
+/* On index page, use local anchors. On subpages, link back to index. */
+const prefix = variant === 'startpage' ? '' : homeHref;
+
+const navItems = [
+  { label: t('nav.projects', lang), href: prefix + '#projects', key: 'projects' },
+  { label: t('nav.blog', lang), href: prefix + '#blog', key: 'blog' },
+  { label: t('nav.connect', lang), href: prefix + '#connect', key: 'connect' },
+];
+
+const altLangLabel = lang === 'en' ? 'DE' : 'EN';
+---
+
+<header class:list={[
+  'fixed top-0 left-0 w-full z-50 bg-background flex justify-between items-center px-lg py-md',
+  'border-b-thick border-primary',
+]}>
+  <a href={homeHref} class="font-headline-md text-headline-md font-bold text-primary tracking-tighter hover:text-secondary transition-colors">CAPSLOCKED.DEV</a>
+
+  <!-- Desktop nav -->
+  <nav class="hidden md:flex gap-lg items-center">
+    {navItems.map((item) => (
+      <a
+        class="font-label-md text-label-md transition-all duration-75 active:translate-y-0.5 px-xs py-base text-primary hover:bg-secondary hover:text-on-secondary"
+        href={item.href}
+      >
+        {item.label}
+      </a>
+    ))}
+  </nav>
+
+  <div class="flex items-center gap-sm md:gap-md">
+    <a class="font-label-sm text-label-sm text-outline hover:text-secondary transition-colors cursor-pointer" href={altLangUrl}>{altLangLabel}</a>
+    <button class="material-symbols-outlined text-primary hover:text-secondary transition-colors" data-theme-icon onclick="toggleTheme()" aria-label="Toggle theme">dark_mode</button>
+    <button class="md:hidden material-symbols-outlined text-primary hover:text-secondary transition-colors" id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">menu</button>
+  </div>
+</header>
+
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" class="hidden mobile-menu-overlay">
+  <button class="absolute top-4 right-4 material-symbols-outlined text-primary text-3xl" onclick="toggleMobileMenu()" aria-label="Close menu">close</button>
+  {navItems.map((item) => (
+    <a
+      class:list={[
+        'font-headline-lg text-headline-lg uppercase transition-colors',
+        item.key === activePage ? 'text-secondary' : 'text-primary hover:text-secondary',
+      ]}
+      href={item.href}
+      onclick="toggleMobileMenu()"
+    >
+      {item.label}
+    </a>
+  ))}
+  <div class="flex items-center gap-md mt-lg">
+    <a class="font-label-md text-label-md text-outline hover:text-secondary transition-colors cursor-pointer" href={altLangUrl}>{altLangLabel}</a>
+    <button class="material-symbols-outlined text-primary hover:text-secondary transition-colors text-3xl" data-theme-icon onclick="toggleTheme()" aria-label="Toggle theme">dark_mode</button>
+  </div>
+</div>

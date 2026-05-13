@@ -1,0 +1,17 @@
+---
+import { t } from '../data/i18n';
+
+interface Props {
+  lang?: string;
+  variant?: 'startpage' | 'blog';
+}
+
+const { lang = 'en', variant = 'startpage' } = Astro.props;
+---
+
+<footer class="w-full bg-background px-lg py-md mt-xl border-t-thick border-primary">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-sm">
+    <a href={lang === 'en' ? '/' : '/de/'} class="font-headline-sm text-headline-sm text-primary hover:text-secondary transition-colors">CAPSLOCKED.DEV</a>
+    <div class="font-label-sm text-label-sm text-primary uppercase">{t('footer.copyright', lang)}</div>
+  </div>
+</footer>

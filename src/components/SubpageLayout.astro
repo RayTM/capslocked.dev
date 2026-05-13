@@ -1,0 +1,64 @@
+---
+import { t } from '../data/i18n';
+
+export interface Badge {
+  text: string;
+  variant: 'filled' | 'outline' | 'accent';
+}
+
+interface Props {
+  lang: string;
+  badges: Badge[];
+  title: string;
+  description: string;
+  heroImage: {
+    src: string;
+    alt: string;
+  };
+}
+
+const { lang, badges, title, description, heroImage } = Astro.props;
+---
+
+<main class="mt-xl pt-xl pb-xl px-lg max-w-5xl mx-auto border-x border-outline-variant overflow-x-hidden">
+  <header class="mb-lg">
+    <div class="flex items-center gap-xs mb-sm flex-wrap">
+      {badges.map((badge) => (
+        <span
+          class:list={[
+            'font-label-sm text-label-sm px-xs py-base',
+            badge.variant === 'filled' && 'bg-secondary-container text-on-secondary-container',
+            badge.variant === 'outline' && 'border border-outline',
+            badge.variant === 'accent' && 'border border-secondary text-secondary',
+          ]}
+        >
+          {badge.text}
+        </span>
+      ))}
+    </div>
+    <h1 class="font-headline-xl text-headline-xl text-primary mb-md uppercase tracking-tighter">
+      {title}
+    </h1>
+    <p class="font-body-lg text-body-lg text-outline max-w-2xl">
+      {description}
+    </p>
+  </header>
+
+  <div class="mb-lg border-thick border-primary hard-shadow-red overflow-hidden bg-surface-container">
+    <img alt={heroImage.alt} class="w-full grayscale contrast-125 object-cover h-[400px]" src={heroImage.src} />
+  </div>
+
+  <article class="space-y-md text-on-background font-body-md max-w-3xl">
+    <slot />
+  </article>
+
+  <section class="mt-xl pt-lg border-t-thick border-primary">
+    <a class="group flex items-center gap-md border border-outline p-md hover:border-secondary hover:bg-surface-container transition-all active:translate-y-0.5" href={lang === 'en' ? '/' : '/de/'}>
+      <span class="material-symbols-outlined text-[48px] group-hover:text-secondary">arrow_back</span>
+      <div>
+        <div class="font-label-sm text-label-sm text-outline uppercase mb-xs">{t('backToHome.label', lang)}</div>
+        <div class="font-headline-md text-headline-md text-primary group-hover:text-secondary">CAPSLOCKED.DEV</div>
+      </div>
+    </a>
+  </section>
+</main>

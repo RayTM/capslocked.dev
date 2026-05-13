@@ -1,0 +1,82 @@
+---
+import type { Project } from '../data/projects';
+import { projectHref } from '../data/projects';
+
+interface Props {
+  project: Project;
+  lang: string;
+  variant?: 'highlighted' | 'grid';
+}
+
+const { project, lang, variant = 'highlighted' } = Astro.props;
+const tr = project.translations[lang] || project.translations.en;
+const href = project.comingSoon ? undefined : projectHref(project.slug, lang);
+const imgAlt = project.image.alt[lang as 'en' | 'de'] || project.image.alt.en;
+const isComing = !!project.comingSoon;
+---
+
+{variant === 'highlighted' ? (
+  <a href={href} class:list={[
+    'border-thick border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col md:flex-row overflow-hidden block',
+    !isComing && 'pixelate-hover',
+    isComing && 'opacity-50 pointer-events-none cursor-default',
+  ]}>
+    <div class="relative w-full md:w-2/5 shrink-0">
+      <img
+        class="w-full h-64 md:h-full object-cover border-b md:border-b-0 md:border-r border-primary grayscale transition-all duration-300"
+        class:list={[!isComing && 'hover:grayscale-0']}
+        alt={imgAlt}
+        src={project.image.src}
+      />
+      {isComing && (
+        <div class="absolute inset-0 flex items-center justify-center bg-black/60">
+          <span class="font-headline-lg text-headline-lg text-white uppercase tracking-widest">COMING_SOON</span>
+        </div>
+      )}
+    </div>
+    <div class="p-lg flex flex-col justify-center">
+      <div class="flex justify-between items-start mb-sm">
+        <h3 class="font-headline-md text-headline-md uppercase">{tr.title}</h3>
+        <span class="font-label-sm text-label-sm px-xs py-base border-thin border-secondary text-secondary">{tr.status}</span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
+      <div class="flex gap-sm">
+        {project.tags.map((tag) => (
+          <span class="font-label-sm text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
+        ))}
+      </div>
+    </div>
+  </a>
+) : (
+  <a href={href} class:list={[
+    'border-thick border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col overflow-hidden block',
+    !isComing && 'pixelate-hover',
+    isComing && 'opacity-50 pointer-events-none cursor-default',
+  ]}>
+    <div class="relative">
+      <img
+        class="w-full h-72 object-cover border-b border-primary grayscale transition-all duration-300"
+        class:list={[!isComing && 'hover:grayscale-0']}
+        alt={imgAlt}
+        src={project.image.src}
+      />
+      {isComing && (
+        <div class="absolute inset-0 flex items-center justify-center bg-black/60">
+          <span class="font-headline-lg text-headline-lg text-white uppercase tracking-widest">COMING_SOON</span>
+        </div>
+      )}
+    </div>
+    <div class="p-lg flex flex-col justify-center flex-grow">
+      <div class="flex justify-between items-start mb-sm">
+        <h3 class="font-headline-md text-headline-md uppercase">{tr.title}</h3>
+        <span class="font-label-sm text-label-sm px-xs py-base border-thin border-secondary text-secondary">{tr.status}</span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
+      <div class="flex gap-sm">
+        {project.tags.map((tag) => (
+          <span class="font-label-sm text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
+        ))}
+      </div>
+    </div>
+  </a>
+)}
