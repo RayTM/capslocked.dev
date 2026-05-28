@@ -23,10 +23,7 @@ const navItems = [
 const altLangLabel = lang === 'en' ? 'DE' : 'EN';
 ---
 
-<header class:list={[
-  'fixed top-0 left-0 w-full z-50 bg-background flex justify-between items-center px-lg py-md',
-  'border-b-thick border-primary',
-]}>
+<header class="w-full bg-background flex justify-between items-center px-lg py-md">
   <a href={homeHref} class="font-headline-md text-headline-md font-bold text-primary tracking-tighter hover:text-secondary transition-colors">CAPSLOCKED.DEV</a>
 
   <!-- Desktop nav -->
@@ -47,6 +44,12 @@ const altLangLabel = lang === 'en' ? 'DE' : 'EN';
     <button class="md:hidden material-symbols-outlined text-primary hover:text-secondary transition-colors" id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">menu</button>
   </div>
 </header>
+
+<!-- Sticky border bar — pins to top on scroll, doubles as reading progress on blog pages -->
+<div class:list={[
+  'sticky top-0 z-50 h-[3px] bg-primary',
+  { 'reading-progress-header': variant === 'blog' || variant === 'project' },
+]}></div>
 
 <!-- Mobile menu overlay -->
 <div id="mobile-menu" class="hidden mobile-menu-overlay">

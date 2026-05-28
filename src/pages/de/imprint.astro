@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../data/i18n';
+
+const lang = 'de';
+---
+
+<BaseLayout title="IMPRESSUM // CAPSLOCKED.DEV" brutalistRadius={true} lang={lang} description="Impressum und Kontaktinformationen.">
+  <Header lang={lang} activePage="" variant="project" altLangUrl="/imprint" />
+  <main class="pt-lg pb-xl px-lg max-w-5xl mx-auto border-x border-outline-variant overflow-x-hidden">
+    <header class="mb-lg">
+      <div class="flex items-center gap-xs mb-sm">
+        <span class="font-label-sm text-label-sm px-xs py-base bg-secondary-container text-on-secondary-container">RECHTLICHES</span>
+      </div>
+      <h1 class="font-headline-xl text-headline-xl text-primary mb-md uppercase tracking-tighter">IMPRESSUM</h1>
+      <p class="font-body-lg text-body-lg text-outline max-w-2xl">Angaben gemäß § 5 TMG.</p>
+    </header>
+
+    <article class="space-y-md text-on-background font-body-md max-w-3xl prose-brutalist">
+      <h2>01 // KONTAKT</h2>
+      <p>
+        <!-- TODO: Mit tatsächlichen Daten ersetzen -->
+        <strong>Dein Name</strong><br />
+        Straße Hausnummer<br />
+        PLZ Stadt<br />
+        Land
+      </p>
+      <p>
+        <strong>E-Mail:</strong> deine@email.de<br />
+        <strong>Telefon:</strong> +49 XXX XXXXXXX
+      </p>
+
+      <h2>02 // INHALTLICH VERANTWORTLICH</h2>
+      <p>
+        Verantwortlich gemäß § 55 Abs. 2 RStV:<br />
+        <strong>Dein Name</strong><br />
+        Adresse wie oben
+      </p>
+
+      <h2>03 // HAFTUNGSAUSSCHLUSS</h2>
+      <p>
+        Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Als Diensteanbieter bin ich für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Ich bin jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+      </p>
+
+      <h2>04 // EXTERNE LINKS</h2>
+      <p>
+        Diese Website enthält Verknüpfungen zu Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann für diese fremden Inhalte auch keine Gewähr übernommen werden. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+      </p>
+    </article>
+
+    <section class="mt-xl pt-lg border-t-thick border-primary">
+      <a class="group flex items-center gap-md border border-outline p-md hover:border-secondary hover:bg-surface-container transition-all active:translate-y-0.5" href="/de/">
+        <span class="material-symbols-outlined text-[48px] group-hover:text-secondary">arrow_back</span>
+        <div>
+          <div class="font-label-sm text-label-sm text-outline uppercase mb-xs">{t('backToHome.label', lang)}</div>
+          <div class="font-headline-md text-headline-md text-primary group-hover:text-secondary">CAPSLOCKED.DEV</div>
+        </div>
+      </a>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

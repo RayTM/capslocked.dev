@@ -12,6 +12,34 @@ const { lang = 'en', variant = 'startpage' } = Astro.props;
 <footer class="w-full bg-background px-lg py-md mt-xl border-t-thick border-primary">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-sm">
     <a href={lang === 'en' ? '/' : '/de/'} class="font-headline-sm text-headline-sm text-primary hover:text-secondary transition-colors">CAPSLOCKED.DEV</a>
-    <div class="font-label-sm text-label-sm text-primary uppercase">{t('footer.copyright', lang)}</div>
+    <div class="flex items-center gap-md">
+      <span id="page-metrics" class="text-[10px] font-label-sm text-outline uppercase hidden"></span>
+      <a href={lang === 'en' ? '/imprint' : '/de/imprint'} class="font-label-sm text-label-sm text-outline hover:text-secondary transition-colors uppercase">{lang === 'en' ? 'Imprint' : 'Impressum'}</a>
+      <span class="font-label-sm text-label-sm text-primary uppercase">{t('footer.copyright', lang)}</span>
+    </div>
   </div>
 </footer>
+<script is:inline>
+  (function showMetrics() {
+    function update() {
+      var el = document.getElementById('page-metrics');
+      if (!el || !performance || !performance.getEntriesByType) return;
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (!nav) return;
+      var loadMs = Math.round(nav.loadEventEnd || nav.responseEnd || nav.duration);
+      var loadSec = (loadMs / 1000).toFixed(2);
+      var transferred = nav.transferSize;
+      var sizeStr = transferred > 0
+        ? (transferred > 1024 ? Math.round(transferred / 1024) + 'KB' : transferred + 'B')
+        : '';
+      el.textContent = 'LOADED_IN: ' + loadSec + 's' + (sizeStr ? ' // ' + sizeStr + ' TRANSFERRED' : '');
+      el.classList.remove('hidden');
+    }
+    if (document.readyState === 'complete') {
+      setTimeout(update, 0);
+    } else {
+      window.addEventListener('load', function() { setTimeout(update, 0); });
+    }
+    document.addEventListener('astro:page-load', function() { setTimeout(update, 50); });
+  })();
+</script>

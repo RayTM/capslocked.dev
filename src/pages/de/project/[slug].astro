@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import SubpageLayout from '../../../components/SubpageLayout.astro';
+import LinkRow from '../../../components/LinkRow.astro';
+import type { Badge } from '../../../components/SubpageLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects
+    .filter((p) => p.id.startsWith('de/'))
+    .map((project) => {
+      const slug = project.id.replace('de/', '');
+      return { params: { slug }, props: { project } };
+    });
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, status, dateRange, category, image, links } = project.data;
+const slug = project.id.replace('de/', '');
+
+const badges: Badge[] = [
+  { text: status, variant: 'filled' },
+  { text: dateRange, variant: 'outline' },
+  { text: category, variant: 'accent' },
+];
+---
+
+<BaseLayout title={`${title} // PROJEKTDETAIL`} brutalistRadius={true} lang="de" description={description} ogImage={image.src}>
+  <Header lang="de" activePage="projects" variant="project" altLangUrl={`/project/${slug}`} />
+  <SubpageLayout
+    lang="de"
+    badges={badges}
+    title={title}
+    description={description}
+    heroImage={image}
+  >
+    <div class="prose-brutalist">
+      <Content />
+    </div>
+    {links.length > 0 && (
+      <div class="mt-md">
+        {links.map((link) => (
+          <LinkRow link={{
+            href: link.href,
+            external: link.external,
+            icon: link.icon,
+            translations: {
+              de: { label: link.label, description: link.description },
+            },
+          }} lang="de" />
+        ))}
+      </div>
+    )}
+  </SubpageLayout>
+  <Footer lang="de" />
+</BaseLayout>

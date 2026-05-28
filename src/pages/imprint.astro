@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { t } from '../data/i18n';
+
+const lang = 'en';
+---
+
+<BaseLayout title="IMPRINT // CAPSLOCKED.DEV" brutalistRadius={true} lang={lang} description="Legal disclosure and contact information.">
+  <Header lang={lang} activePage="" variant="project" altLangUrl="/de/imprint" />
+  <main class="pt-lg pb-xl px-lg max-w-5xl mx-auto border-x border-outline-variant overflow-x-hidden">
+    <header class="mb-lg">
+      <div class="flex items-center gap-xs mb-sm">
+        <span class="font-label-sm text-label-sm px-xs py-base bg-secondary-container text-on-secondary-container">LEGAL</span>
+      </div>
+      <h1 class="font-headline-xl text-headline-xl text-primary mb-md uppercase tracking-tighter">IMPRINT</h1>
+      <p class="font-body-lg text-body-lg text-outline max-w-2xl">Legal disclosure pursuant to § 5 TMG.</p>
+    </header>
+
+    <article class="space-y-md text-on-background font-body-md max-w-3xl prose-brutalist">
+      <h2>01 // CONTACT</h2>
+      <p>
+        <!-- TODO: Replace with your actual details -->
+        <strong>Your Name</strong><br />
+        Street Address<br />
+        ZIP City<br />
+        Country
+      </p>
+      <p>
+        <strong>Email:</strong> your@email.com<br />
+        <strong>Phone:</strong> +49 XXX XXXXXXX
+      </p>
+
+      <h2>02 // RESPONSIBLE FOR CONTENT</h2>
+      <p>
+        Responsible according to § 55 Abs. 2 RStV:<br />
+        <strong>Your Name</strong><br />
+        Address as above
+      </p>
+
+      <h2>03 // DISCLAIMER</h2>
+      <p>
+        The contents of this website have been created with the utmost care. However, no guarantee can be given for the correctness, completeness, and timeliness of the content. As a service provider, I am responsible for my own content on these pages under general law. However, I am not obligated to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.
+      </p>
+
+      <h2>04 // EXTERNAL LINKS</h2>
+      <p>
+        This website contains links to external third-party websites over whose content I have no influence. Therefore, no guarantee can be made for this external content. The respective provider or operator of the linked pages is always responsible for the content of the linked pages.
+      </p>
+    </article>
+
+    <section class="mt-xl pt-lg border-t-thick border-primary">
+      <a class="group flex items-center gap-md border border-outline p-md hover:border-secondary hover:bg-surface-container transition-all active:translate-y-0.5" href="/">
+        <span class="material-symbols-outlined text-[48px] group-hover:text-secondary">arrow_back</span>
+        <div>
+          <div class="font-label-sm text-label-sm text-outline uppercase mb-xs">{t('backToHome.label', lang)}</div>
+          <div class="font-headline-md text-headline-md text-primary group-hover:text-secondary">CAPSLOCKED.DEV</div>
+        </div>
+      </a>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

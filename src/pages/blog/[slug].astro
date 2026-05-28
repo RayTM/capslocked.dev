@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SubpageLayout from '../../components/SubpageLayout.astro';
+import type { Badge } from '../../components/SubpageLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts
+    .filter((p) => p.id.startsWith('en/'))
+    .map((post) => {
+      const slug = post.id.replace('en/', '');
+      return { params: { slug }, props: { post } };
+    });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, category, heroImage } = post.data;
+const slug = post.id.replace('en/', '');
+
+// Auto-calculate reading time (~200 words/min)
+const words = (post.body || '').trim().split(/\s+/).length;
+const minutes = Math.max(1, Math.ceil(words / 200));
+const readTime = `${minutes} MIN READ`;
+
+const badges: Badge[] = [
+  { text: date.replace(/\./g, ' ').replace(/(\d{4}) (\d{2}) (\d{2})/, '$3 $2 $1').toUpperCase(), variant: 'filled' },
+  { text: readTime, variant: 'outline' },
+  { text: category, variant: 'accent' },
+];
+---
+
+<BaseLayout title={`${title.toUpperCase()} // CAPSLOCKED.DEV`} brutalistRadius={true} lang="en" description={description} ogImage={heroImage.src}>
+  <Header lang="en" activePage="blog" variant="blog" altLangUrl={`/de/blog/${slug}`} />
+  <SubpageLayout
+    lang="en"
+    badges={badges}
+    title={title}
+    description={description}
+    heroImage={heroImage}
+  >
+    <div class="prose-brutalist">
+      <Content />
+    </div>
+  </SubpageLayout>
+  <Footer lang="en" />
+</BaseLayout>

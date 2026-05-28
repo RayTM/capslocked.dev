@@ -1,15 +1,20 @@
 ---
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import Construction from '../components/Construction.astro';
 
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
   brutalistRadius?: boolean;
   gridBg?: boolean;
   lang?: string;
+  construction?: boolean;
 }
 
-const { title, description = '', brutalistRadius = false, gridBg = false, lang = 'en' } = Astro.props;
+const { title, description = '', ogImage = '', brutalistRadius = false, gridBg = false, lang = 'en', construction = false } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://capslocked.dev');
 ---
 
 <!DOCTYPE html>
@@ -17,9 +22,23 @@ const { title, description = '', brutalistRadius = false, gridBg = false, lang =
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{title}</title>
+  <link rel="canonical" href={canonicalURL.href} />
   {description && <meta name="description" content={description} />}
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:url" content={canonicalURL.href} />
+  {description && <meta property="og:description" content={description} />}
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_US'} />
+  <!-- Twitter -->
+  <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:title" content={title} />
+  {description && <meta name="twitter:description" content={description} />}
+  {ogImage && <meta name="twitter:image" content={ogImage} />}
+  <ViewTransitions />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
   <!-- Prevent flash of wrong theme -->
   <script is:inline>
@@ -38,15 +57,30 @@ const { title, description = '', brutalistRadius = false, gridBg = false, lang =
         document.documentElement.classList.add('dark');
       }
     })();
+    // Persist theme class on the incoming document during View Transitions
+    document.addEventListener('astro:before-swap', function(e) {
+      var theme = localStorage.getItem('theme');
+      var newDoc = e.newDocument.documentElement;
+      newDoc.classList.remove('dark', 'light');
+      if (theme === 'light') {
+        newDoc.classList.add('light');
+      } else if (theme === 'dark') {
+        newDoc.classList.add('dark');
+      } else if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        newDoc.classList.add('light');
+      } else {
+        newDoc.classList.add('dark');
+      }
+    });
   </script>
 </head>
 <body class:list={[
   'bg-background text-on-background font-body-md min-h-screen selection:bg-secondary-container selection:text-white',
-  { 'grid-bg': gridBg, 'brutalist-radius': brutalistRadius },
+  { 'grid-bg': gridBg && !construction, 'brutalist-radius': brutalistRadius, 'overflow-hidden': construction },
 ]}>
   <!-- CRT TV theme wipe overlay -->
   <div id="theme-wipe"></div>
-  <slot />
+  {construction ? <Construction lang={lang} /> : <slot />}
 </body>
 <script is:inline>
   /* ── Theme toggle with CRT TV wipe ── */
@@ -100,11 +134,24 @@ const { title, description = '', brutalistRadius = false, gridBg = false, lang =
   window.toggleTheme = toggleTheme;
   window.toggleMobileMenu = toggleMobileMenu;
 
-  document.addEventListener('DOMContentLoaded', function() {
+  function initPage() {
     var isDark = document.documentElement.classList.contains('dark');
     document.querySelectorAll('[data-theme-icon]').forEach(function(icon) {
       icon.textContent = isDark ? 'dark_mode' : 'light_mode';
     });
+
+    // Reading progress bar — JS fallback for browsers without animation-timeline: scroll()
+    var header = document.querySelector('.reading-progress-header');
+    if (header && !CSS.supports('animation-timeline', 'scroll()')) {
+      function updateProgress() {
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = docHeight > 0 ? scrollTop / docHeight : 0;
+        header.style.setProperty('--reading-progress', Math.min(progress, 1));
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    }
 
     if (window.location.hash) {
       var target = document.querySelector(window.location.hash);
@@ -114,6 +161,9 @@ const { title, description = '', brutalistRadius = false, gridBg = false, lang =
         }, 100);
       }
     }
-  });
+  }
+  // Works on initial load and after View Transitions navigation
+  document.addEventListener('DOMContentLoaded', initPage);
+  document.addEventListener('astro:page-load', initPage);
 </script>
 </html>

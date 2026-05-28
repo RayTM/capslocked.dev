@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="0" fill="#131313"/>
+  <rect y="0" width="32" height="3" fill="#ff5540"/>
+  <!-- C character -->
+  <path d="M20 9h-6a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6v-3h-6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h6V9z" fill="#ffffff"/>
+  <!-- Cursor underscore -->
+  <rect x="22" y="21" width="4" height="2" fill="#ff5540"/>
+</svg>
