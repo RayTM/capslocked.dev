@@ -325,13 +325,13 @@ html.light .grid-bg {
 .prose-brutalist pre code {
   color: var(--c-primary-fixed);
 }
-.prose-brutalist a.external-link {
+.prose-brutalist a {
   color: var(--c-secondary);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color 0.15s;
 }
-.prose-brutalist a.external-link:hover {
+.prose-brutalist a:hover {
   color: var(--c-primary);
 }
 /* List items — bordered rows matching site's LinkRow/PostRow pattern */
