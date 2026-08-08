@@ -8,7 +8,6 @@ export const translations: Record<string, { en: string; de: string }> = {
   'nav.connect':      { en: 'CONNECT',    de: 'KONTAKT' },
   'footer.copyright': { en: '\u00A9 2024 CAPSLOCKED.DEV // ROOT ACCESS ONLY', de: '\u00A9 2024 CAPSLOCKED.DEV // NUR ROOT-ZUGANG' },
   'backToHome.label': { en: 'BACK TO ROOT', de: 'ZUR\u00DCCK ZUM URSPRUNG' },
-  'construction.ping': { en: 'Ping Status', de: 'Status pingen' },
 };
 
 export function t(key: string, lang: string): string {

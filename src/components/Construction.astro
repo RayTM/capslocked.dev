@@ -1,5 +1,5 @@
 ---
-import { t } from '../data/i18n';
+import Header from './Header.astro';
 
 interface Props {
   lang?: string;
@@ -7,12 +7,17 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 const buildDate = new Date().toISOString().replace('T', ' ').slice(0, 19);
+const altLangUrl = lang === 'en' ? '/de/' : '/';
 ---
 
-<main class="relative min-h-screen w-full flex flex-col items-center justify-center construction-grid p-lg overflow-hidden">
-  <div class="construction-scanline pointer-events-none z-50"></div>
+<div class="relative z-20">
+  <Header lang={lang} variant="project" altLangUrl={altLangUrl} hideNav={true} />
+</div>
 
-  <div class="relative flex flex-col items-center text-center max-w-4xl">
+<main class="relative min-h-[calc(100vh-72px)] w-full flex flex-col items-center justify-center construction-grid p-lg overflow-hidden">
+  <div class="construction-scanline pointer-events-none z-0"></div>
+
+  <div class="relative z-10 flex flex-col items-center text-center max-w-4xl">
     <!-- Structural frame (top-left) -->
     <div class="absolute -top-xl -left-xl w-md h-md border-t-thick border-l-thick border-secondary-container hidden md:block"></div>
 
@@ -38,29 +43,20 @@ const buildDate = new Date().toISOString().replace('T', ' ').slice(0, 19);
       </p>
     </div>
 
-    <!-- Brutalist button -->
-    <div class="relative group">
-      <div class="absolute inset-0 bg-secondary-container translate-x-base translate-y-base group-active:translate-x-0 group-active:translate-y-0 transition-all"></div>
-      <button
-        id="construction-ping"
-        class="relative bg-primary text-background font-label-md text-label-md px-lg py-sm border-thick border-primary group-hover:-translate-x-1 group-hover:-translate-y-1 transition-transform flex items-center gap-sm uppercase font-bold"
-      >
-        <span class="material-symbols-outlined" data-construction-icon>terminal</span>
-        <span data-construction-label>{t('construction.ping', lang)}</span>
-      </button>
-    </div>
-
     <!-- Structural frame (bottom-right) -->
     <div class="absolute -bottom-xl -right-xl w-md h-md border-b-thick border-r-thick border-secondary-container hidden md:block"></div>
   </div>
 
   <!-- Terminal footer -->
-  <div class="absolute bottom-md left-lg right-lg flex flex-col md:flex-row justify-between items-end border-t-thin border-outline-variant pt-sm gap-sm opacity-50">
-    <div class="font-label-sm text-label-sm text-on-surface-variant">
+  <div class="absolute bottom-sm md:bottom-md left-md right-md md:left-lg md:right-lg z-10 flex flex-col md:flex-row justify-between items-center md:items-end border-t-thin border-outline-variant pt-sm gap-2">
+    <div class="font-label-sm text-[10px] md:text-label-sm text-on-surface-variant text-center md:text-left break-all opacity-50">
       LOG: {buildDate} UTC | STDOUT_PIPE: SUCCESS
     </div>
-    <div class="font-label-sm text-label-sm text-on-surface-variant">
-      CAPSLOCKED_DEV // CORE_v2.0.4-BETA
+    <div class="flex items-center gap-md">
+      <a href={lang === 'en' ? '/imprint' : '/de/imprint'} class="font-label-sm text-[10px] md:text-label-sm text-on-surface-variant hover:text-secondary-container transition-colors uppercase">{lang === 'en' ? 'Imprint' : 'Impressum'}</a>
+      <span class="font-label-sm text-[10px] md:text-label-sm text-on-surface-variant text-center md:text-right opacity-50">
+        CAPSLOCKED_DEV // CORE_v2.0.4-BETA
+      </span>
     </div>
   </div>
 </main>
@@ -71,36 +67,3 @@ const buildDate = new Date().toISOString().replace('T', ' ').slice(0, 19);
   .border-b-thick { border-bottom-width: 3px; }
 </style>
 
-<script>
-  function initConstructionPing() {
-    const btn = document.getElementById('construction-ping');
-    if (!btn || btn.dataset.wired === '1') return;
-    btn.dataset.wired = '1';
-
-    const icon = btn.querySelector('[data-construction-icon]') as HTMLElement | null;
-    const label = btn.querySelector('[data-construction-label]') as HTMLElement | null;
-    if (!icon || !label) return;
-
-    const originalIcon = icon.textContent;
-    const originalLabel = label.textContent;
-
-    btn.addEventListener('click', () => {
-      icon.textContent = 'sync';
-      label.textContent = 'PINGING...';
-      btn.classList.add('!bg-secondary-container');
-
-      setTimeout(() => {
-        icon.textContent = 'check_circle';
-        label.textContent = '200 OK';
-        setTimeout(() => {
-          icon.textContent = originalIcon;
-          label.textContent = originalLabel;
-          btn.classList.remove('!bg-secondary-container');
-        }, 2000);
-      }, 800);
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', initConstructionPing);
-  document.addEventListener('astro:page-load', initConstructionPing);
-</script>
