@@ -29,7 +29,7 @@ const badges: Badge[] = [
 ];
 ---
 
-<BaseLayout title={`${title} // PROJEKTDETAIL`} brutalistRadius={true} lang="de" description={description} ogImage={image.src}>
+<BaseLayout title={`${title} // PROJEKTDETAIL`} brutalistRadius={true} gridBg={true} lang="de" description={description} ogImage={image.src}>
   <Header lang="de" activePage="projects" variant="project" altLangUrl={`/project/${slug}`} />
   <SubpageLayout
     lang="de"
@@ -42,7 +42,7 @@ const badges: Badge[] = [
       <Content />
     </div>
     {links.length > 0 && (
-      <div class="mt-md">
+      <div class="mt-lg">
         {links.map((link) => (
           <LinkRow link={{
             href: link.href,

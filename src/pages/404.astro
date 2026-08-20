@@ -5,13 +5,12 @@ import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout title="404 // SIGNAL_LOST" gridBg={true} lang="en" description="Page not found.">
-  <div class="scanline"></div>
   <Header lang="en" activePage="" variant="startpage" altLangUrl="/de" />
   <main class="max-w-7xl mx-auto px-lg pt-xl">
     <section class="min-h-[80vh] flex flex-col justify-center items-center text-center py-xl">
       <div class="border-thick border-primary p-md md:p-lg bg-surface-container-low brutalist-shadow mb-lg max-w-full">
         <div class="font-headline-xl text-[80px] md:text-[120px] leading-none tracking-[-0.04em] font-extrabold text-secondary mb-md">404</div>
-        <h1 class="font-headline-lg text-headline-lg mb-md">SIGNAL_LOST.</h1>
+        <h1 class="font-headline-lg text-[28px] md:text-headline-lg mb-md break-words">SIGNAL_LOST.</h1>
         <div class="font-label-md text-label-md text-outline mb-md space-y-xs">
           <p>> ROUTE_NOT_FOUND</p>
           <p>> PACKET_DROPPED AT DESTINATION</p>
@@ -22,7 +21,7 @@ import Footer from '../components/Footer.astro';
         </p>
       </div>
       <div class="flex gap-md">
-        <a class="bg-primary text-background px-lg py-sm font-label-md text-label-md border-thick border-primary hover:bg-secondary-container hover:text-white transition-all brutalist-shadow active:translate-y-1" href="/">RETURN_TO_ROOT</a>
+        <a class="bg-primary text-background px-md md:px-lg py-sm font-label-md text-[11px] md:text-label-md border-thick border-primary hover:bg-secondary-container hover:text-white transition-all brutalist-shadow active:translate-y-1" href="/">RETURN_TO_ROOT</a>
       </div>
     </section>
   </main>

@@ -31,7 +31,7 @@ export default function remarkTerminal() {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 
-      const html = `<div class="my-lg border-thin border-outline p-md bg-surface-container-low font-label-md text-label-md overflow-hidden">
+      const html = `<div class="my-lg border-thin border-outline-variant p-md bg-surface-container-low font-label-md text-label-md overflow-hidden">
   <div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
     <span class="text-secondary font-bold">${title}</span>
     <span class="text-outline">${lang}</span>

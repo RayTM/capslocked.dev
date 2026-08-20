@@ -17,14 +17,12 @@ const isComing = !!project.comingSoon;
 
 {variant === 'highlighted' ? (
   <a href={href} class:list={[
-    'border-thick border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col md:flex-row overflow-hidden block',
-    !isComing && 'pixelate-hover',
+    'group border-thin border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col md:flex-row overflow-hidden block',
     isComing && 'opacity-50 pointer-events-none cursor-default',
   ]}>
-    <div class="relative w-full md:w-2/5 shrink-0">
+    <div class="duotone-wrap relative overflow-hidden w-full md:w-2/5 shrink-0 border-b md:border-b-0 md:border-r border-primary">
       <img
-        class="w-full h-64 md:h-full object-cover border-b md:border-b-0 md:border-r border-primary grayscale transition-all duration-300"
-        class:list={[!isComing && 'hover:grayscale-0']}
+        class="w-full h-64 md:h-full object-cover grayscale"
         alt={imgAlt}
         src={project.image.src}
       />
@@ -34,29 +32,27 @@ const isComing = !!project.comingSoon;
         </div>
       )}
     </div>
-    <div class="p-lg flex flex-col justify-center">
-      <div class="flex justify-between items-start mb-sm">
-        <h3 class="font-headline-md text-headline-md uppercase">{tr.title}</h3>
-        <span class="font-label-sm text-label-sm px-xs py-base border-thin border-secondary text-secondary">{tr.status}</span>
+    <div class="p-md md:p-lg flex flex-col justify-center min-w-0">
+      <div class="flex flex-wrap justify-between items-start gap-xs mb-sm">
+        <h3 class="dot-font font-headline-md text-[20px] md:text-headline-md uppercase break-words min-w-0">{tr.title}</h3>
+        <span class="font-label-sm text-[10px] md:text-label-sm px-xs py-base border-thin border-secondary text-secondary shrink-0">{tr.status}</span>
       </div>
       <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
-      <div class="flex gap-sm">
+      <div class="flex flex-wrap gap-x-sm gap-y-xs">
         {project.tags.map((tag) => (
-          <span class="font-label-sm text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
+          <span class="font-label-sm text-[10px] md:text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
         ))}
       </div>
     </div>
   </a>
 ) : (
   <a href={href} class:list={[
-    'border-thick border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col overflow-hidden block',
-    !isComing && 'pixelate-hover',
+    'group border-thin border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col overflow-hidden block',
     isComing && 'opacity-50 pointer-events-none cursor-default',
   ]}>
-    <div class="relative">
+    <div class="duotone-wrap relative overflow-hidden border-b border-primary">
       <img
-        class="w-full h-72 object-cover border-b border-primary grayscale transition-all duration-300"
-        class:list={[!isComing && 'hover:grayscale-0']}
+        class="w-full h-72 object-cover grayscale"
         alt={imgAlt}
         src={project.image.src}
       />
@@ -66,15 +62,15 @@ const isComing = !!project.comingSoon;
         </div>
       )}
     </div>
-    <div class="p-lg flex flex-col justify-center flex-grow">
-      <div class="flex justify-between items-start mb-sm">
-        <h3 class="font-headline-md text-headline-md uppercase">{tr.title}</h3>
-        <span class="font-label-sm text-label-sm px-xs py-base border-thin border-secondary text-secondary">{tr.status}</span>
+    <div class="p-md md:p-lg flex flex-col justify-center flex-grow min-w-0">
+      <div class="flex flex-wrap justify-between items-start gap-xs mb-sm">
+        <h3 class="dot-font font-headline-md text-[20px] md:text-headline-md uppercase break-words min-w-0">{tr.title}</h3>
+        <span class="font-label-sm text-[10px] md:text-label-sm px-xs py-base border-thin border-secondary text-secondary shrink-0">{tr.status}</span>
       </div>
       <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
-      <div class="flex gap-sm">
+      <div class="flex flex-wrap gap-x-sm gap-y-xs">
         {project.tags.map((tag) => (
-          <span class="font-label-sm text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
+          <span class="font-label-sm text-[10px] md:text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
         ))}
       </div>
     </div>

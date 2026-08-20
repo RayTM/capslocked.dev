@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import ProjectCard from "../components/ProjectCard.astro";
@@ -20,44 +21,22 @@ const grid = projects.filter((p) => !p.highlighted);
     title="CAPSLOCKED.DEV // ROOT ACCESS"
     gridBg={true}
     lang={lang}
-    construction={true}
+    construction={false}
 >
-    <div class="scanline"></div>
     <Header
         lang={lang}
         activePage="projects"
         variant="startpage"
         altLangUrl={altLangUrl}
     />
-    <main class="max-w-7xl mx-auto px-lg pt-xl">
+    <main class="max-w-7xl mx-auto px-md md:px-lg pt-xl">
         <!-- Hero Section -->
-        <section
-            class="min-h-[819px] flex flex-col justify-center items-center text-center py-xl"
-        >
-            <div
-                class="border-thick border-primary p-md md:p-lg bg-surface-container-low brutalist-shadow mb-lg max-w-full"
-            >
-                <h1
-                    class="font-headline-xl text-[32px] md:text-headline-xl leading-[1.1] tracking-[-0.04em] font-extrabold mb-md"
-                >
-                    SYSTEM_READY.
-                </h1>
-                <p
-                    class="font-body-lg text-body-lg max-w-2xl mx-auto text-on-surface-variant"
-                >
-                    I am a full-stack engineer specializing in structural
-                    integrity and terminal-grade interfaces. I build tools for
-                    the technical elite, focusing on raw performance and
-                    unapologetic brutalism.
-                </p>
-            </div>
-            <div class="flex gap-md">
-                <a
-                    class="bg-primary text-background px-lg py-sm font-label-md text-label-md border-thick border-primary hover:bg-secondary-container hover:text-white transition-all brutalist-shadow active:translate-y-1"
-                    href="#connect">INITIALIZE_CONNECT</a
-                >
-            </div>
-        </section>
+        <Hero
+            eyebrow="HEY, I AM"
+            title="LUKAS"
+            titleAccent="_WALTER."
+            text="TYPO3 and PHP developer, currently leveling up in DevOps. By day I build extensions and backends — after hours I wrestle with Docker, CI/CD pipelines and self-hosted infrastructure. This site runs on it."
+        />
 
         <!-- Highlighted Project -->
         <section class="py-xl" id="projects">
@@ -97,20 +76,17 @@ const grid = projects.filter((p) => !p.highlighted);
         </section>
 
         <!-- Blog -->
-        <section class="py-xl border-t-thin border-outline-variant" id="blog">
+        <section class="py-xl" id="blog">
             <SectionHeading>RECENT_LOGS</SectionHeading>
-            <div class="space-y-base">
+            <div>
                 {posts.map((post) => <PostRow post={post} lang={lang} />)}
             </div>
         </section>
 
         <!-- Connect -->
-        <section
-            class="py-xl border-t-thin border-outline-variant"
-            id="connect"
-        >
+        <section class="py-xl" id="connect">
             <SectionHeading>ESTABLISH_UPLINK</SectionHeading>
-            <div class="space-y-base">
+            <div>
                 {links.map((link) => <LinkRow link={link} lang={lang} />)}
             </div>
         </section>

@@ -10,11 +10,12 @@ const buildDate = new Date().toISOString().replace('T', ' ').slice(0, 19);
 const altLangUrl = lang === 'en' ? '/de/' : '/';
 ---
 
+<div class="flex flex-col h-dvh">
 <div class="relative z-20">
   <Header lang={lang} variant="project" altLangUrl={altLangUrl} hideNav={true} />
 </div>
 
-<main class="relative min-h-[calc(100dvh-72px)] w-full flex flex-col items-center justify-center construction-grid p-lg overflow-hidden">
+<main class="relative flex-1 min-h-0 w-full flex flex-col items-center justify-center construction-grid p-lg overflow-hidden">
   <div class="construction-scanline pointer-events-none z-0"></div>
 
   <div class="relative z-10 flex flex-col items-center text-center max-w-4xl">
@@ -60,6 +61,7 @@ const altLangUrl = lang === 'en' ? '/de/' : '/';
     </div>
   </div>
 </main>
+</div>
 
 <style>
   /* Right/bottom thick borders not provided by global.css utilities */

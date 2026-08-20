@@ -12,15 +12,18 @@ const linkAttrs = link.external ? { target: '_blank', rel: 'noopener noreferrer'
 ---
 
 <a
-  class="group flex justify-between items-center p-md border-thin border-primary hover-fill-accent transition-colors cursor-pointer"
+  class="group flex justify-between items-center gap-md py-md border-b-thin border-outline-variant last:border-b-0 cursor-pointer"
   href={link.href}
   {...linkAttrs}
 >
-  <div class="flex items-center gap-md">
-    <span class="font-label-md text-label-md text-secondary group-hover:text-white">{tr.label}</span>
-    <span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-white">{tr.description}</span>
+  <div class="flex flex-col md:flex-row md:items-baseline gap-xs md:gap-md min-w-0">
+    <span class="dot-font font-label-md text-label-md uppercase text-primary shrink-0 md:w-[140px]">
+      {tr.label}
+    </span>
+    <span class="font-label-sm text-label-sm text-on-surface-variant break-words min-w-0">{tr.description}</span>
   </div>
-  {link.icon && (
-    <span class="material-symbols-outlined text-primary group-hover:text-white">{link.icon}</span>
-  )}
+  <span
+    class="material-symbols-outlined text-outline group-hover:text-secondary group-hover:translate-x-1 transition-all shrink-0"
+    aria-hidden="true"
+  >{link.external ? 'arrow_outward' : 'arrow_forward'}</span>
 </a>

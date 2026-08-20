@@ -1,8 +1,7 @@
 ---
-/* Just a heading + divider bar. Content is passed via slot (already translated). */
+/* Just a heading with accent slashes. Content is passed via slot (already translated). */
 ---
 
-<div class="flex items-center gap-md mb-lg">
-  <h2 class="font-headline-lg text-[24px] md:text-headline-lg leading-[1.2] font-bold uppercase"><slot /></h2>
-  <div class="h-[3px] flex-grow bg-primary"></div>
-</div>
+<h2 class="font-headline-lg text-[22px] md:text-[28px] leading-[1.2] font-bold uppercase mb-lg">
+  <span class="text-secondary" aria-hidden="true">//</span> <slot />
+</h2>

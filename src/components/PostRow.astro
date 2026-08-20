@@ -13,14 +13,17 @@ const href = postHref(post.slug, lang);
 ---
 
 <a
-  class="group flex flex-col md:flex-row justify-between items-start md:items-center p-md border-thin border-primary hover-fill-accent transition-colors cursor-pointer"
+  class="group flex justify-between items-center gap-md py-md border-b-thin border-outline-variant last:border-b-0 cursor-pointer"
   href={href}
 >
-  <div class="flex flex-col md:flex-row md:items-center gap-md">
-    <span class="font-label-md text-label-md text-secondary group-hover:text-white">{tr.date}</span>
-    <h3 class="font-headline-md text-headline-md uppercase group-hover:text-white">{tr.title}</h3>
+  <div class="flex flex-col md:flex-row md:items-baseline gap-xs md:gap-md min-w-0">
+    <span class="font-label-md text-label-md text-outline shrink-0 md:w-[120px]">{tr.date}</span>
+    <h3 class="dot-font font-headline-md text-[18px] md:text-headline-md uppercase text-primary break-words min-w-0">
+      {tr.title}
+    </h3>
   </div>
-  {post.icon && (
-    <span class="material-symbols-outlined text-primary group-hover:text-white">{post.icon}</span>
-  )}
+  <span
+    class="material-symbols-outlined text-outline group-hover:text-secondary group-hover:translate-x-1 transition-all shrink-0"
+    aria-hidden="true"
+  >arrow_forward</span>
 </a>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
 import Footer from '../../components/Footer.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
@@ -16,23 +17,16 @@ const highlighted = projects.filter(p => p.highlighted);
 const grid = projects.filter(p => !p.highlighted);
 ---
 
-<BaseLayout title="CAPSLOCKED.DEV // ROOT-ZUGANG" gridBg={true} lang={lang} construction={true}>
-  <div class="scanline"></div>
+<BaseLayout title="CAPSLOCKED.DEV // ROOT-ZUGANG" gridBg={true} lang={lang} construction={false}>
   <Header lang={lang} activePage="projects" variant="startpage" altLangUrl={altLangUrl} />
-  <main class="max-w-7xl mx-auto px-lg pt-xl">
+  <main class="max-w-7xl mx-auto px-md md:px-lg pt-xl">
     <!-- Hero Section -->
-    <section class="min-h-[819px] flex flex-col justify-center items-center text-center py-xl">
-      <div class="border-thick border-primary p-md md:p-lg bg-surface-container-low brutalist-shadow mb-lg max-w-full">
-        <h1 class="font-headline-xl text-[32px] md:text-headline-xl leading-[1.1] tracking-[-0.04em] font-extrabold mb-md">SYSTEM_BEREIT.</h1>
-        <p class="font-body-lg text-body-lg max-w-2xl mx-auto text-on-surface-variant">
-          Ich bin ein Full-Stack-Ingenieur mit Spezialisierung auf strukturelle Integrität und terminale Schnittstellen.
-          Ich baue Werkzeuge für die technische Elite — rohe Leistung und kompromissloser Brutalismus.
-        </p>
-      </div>
-      <div class="flex gap-md">
-        <a class="bg-primary text-background px-lg py-sm font-label-md text-label-md border-thick border-primary hover:bg-secondary-container hover:text-white transition-all brutalist-shadow active:translate-y-1" href="#connect">VERBINDUNG_INITIALISIEREN</a>
-      </div>
-    </section>
+    <Hero
+      eyebrow="HALLO, ICH BIN"
+      title="LUKAS"
+      titleAccent="_WALTER."
+      text="TYPO3- und PHP-Entwickler, der sich gerade in DevOps einarbeitet. Tagsüber baue ich Extensions und Backends — danach geht es um Docker, CI/CD-Pipelines und selbst gehostete Infrastruktur. Diese Seite läuft darauf."
+    />
 
     <!-- Hervorgehobenes Projekt -->
     <section class="py-xl" id="projects">
@@ -54,9 +48,9 @@ const grid = projects.filter(p => !p.highlighted);
     </section>
 
     <!-- Blog -->
-    <section class="py-xl border-t-thin border-outline-variant" id="blog">
+    <section class="py-xl" id="blog">
       <SectionHeading>AKTUELLE_EINTRÄGE</SectionHeading>
-      <div class="space-y-base">
+      <div>
         {posts.map((post) => (
           <PostRow post={post} lang={lang} />
         ))}
@@ -64,9 +58,9 @@ const grid = projects.filter(p => !p.highlighted);
     </section>
 
     <!-- Kontakt -->
-    <section class="py-xl border-t-thin border-outline-variant" id="connect">
+    <section class="py-xl" id="connect">
       <SectionHeading>UPLINK_HERSTELLEN</SectionHeading>
-      <div class="space-y-base">
+      <div>
         {links.map((link) => (
           <LinkRow link={link} lang={lang} />
         ))}

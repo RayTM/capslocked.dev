@@ -7,18 +7,23 @@ import { t } from '../../data/i18n';
 const lang = 'de';
 ---
 
-<BaseLayout title="IMPRESSUM // CAPSLOCKED.DEV" brutalistRadius={true} lang={lang} description="Impressum und Kontaktinformationen.">
+<BaseLayout title="IMPRESSUM // CAPSLOCKED.DEV" brutalistRadius={true} gridBg={true} lang={lang} description="Impressum und Kontaktinformationen.">
   <Header lang={lang} activePage="" variant="project" altLangUrl="/imprint" hideNav={true} />
-  <main class="pt-lg pb-xl px-lg max-w-5xl mx-auto border-x border-outline-variant overflow-x-hidden">
+  <main class="pt-lg md:pt-xl pb-xl px-md md:px-lg max-w-3xl mx-auto overflow-x-hidden">
     <header class="mb-lg">
-      <div class="flex items-center gap-xs mb-sm">
-        <span class="font-label-sm text-label-sm px-xs py-base bg-secondary-container text-on-secondary-container">RECHTLICHES</span>
+      <div class="flex items-center gap-x-sm font-label-sm text-label-sm uppercase tracking-[0.08em] mb-md">
+        <span class="text-secondary" aria-hidden="true">&gt;&gt;</span>
+        <span class="text-secondary">RECHTLICHES</span>
       </div>
-      <h1 class="font-headline-xl text-headline-xl text-primary mb-md uppercase tracking-tighter">IMPRESSUM</h1>
-      <p class="font-body-lg text-body-lg text-outline max-w-2xl">Angaben gemäß § 5 TMG.</p>
+      <h1 class="font-headline-xl text-[32px] md:text-[48px] leading-[1.05] tracking-[-0.02em] font-extrabold text-primary uppercase break-words mb-md">
+        IMPRESSUM
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant border-l-thick border-secondary pl-md">
+        Angaben gemäß § 5 TMG.
+      </p>
     </header>
 
-    <article class="space-y-md text-on-background font-body-md max-w-3xl prose-brutalist">
+    <article class="text-on-background prose-brutalist">
       <h2>01 // KONTAKT</h2>
       <p>
         <strong>Lukas Walter</strong><br />
@@ -49,13 +54,15 @@ const lang = 'de';
       </p>
     </article>
 
-    <section class="mt-xl pt-lg border-t-thick border-primary">
-      <a class="group flex items-center gap-md border border-outline p-md hover:border-secondary hover:bg-surface-container transition-all active:translate-y-0.5" href="/de/">
-        <span class="material-symbols-outlined text-[48px] group-hover:text-secondary">arrow_back</span>
-        <div>
-          <div class="font-label-sm text-label-sm text-outline uppercase mb-xs">{t('backToHome.label', lang)}</div>
-          <div class="font-headline-md text-headline-md text-primary group-hover:text-secondary">CAPSLOCKED.DEV</div>
-        </div>
+    <section class="mt-xl pt-lg border-t-thin border-outline-variant">
+      <div class="font-label-sm text-label-sm text-outline uppercase mb-md" aria-hidden="true">// EOF</div>
+      <a
+        class="group inline-flex items-center gap-xs font-label-md text-label-md uppercase tracking-[0.1em] text-on-surface-variant hover:text-secondary transition-colors"
+        href="/de/"
+      >
+        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:-translate-x-1" aria-hidden="true">arrow_back</span>
+        <span>{t('backToHome.label', lang)}</span>
+        <span class="text-primary group-hover:text-secondary transition-colors">CAPSLOCKED.DEV</span>
       </a>
     </section>
   </main>

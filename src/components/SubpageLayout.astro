@@ -18,47 +18,76 @@ interface Props {
 }
 
 const { lang, badges, title, description, heroImage } = Astro.props;
+const homeHref = lang === 'en' ? '/' : '/de/';
+/* Accent badge (category) doubles as the outlined watermark behind the header. */
+const watermark = badges.find((b) => b.variant === 'accent')?.text;
 ---
 
-<main class="pt-lg pb-xl px-lg max-w-5xl mx-auto border-x border-outline-variant overflow-x-hidden">
-  <header class="mb-lg">
-    <div class="flex items-center gap-xs mb-sm flex-wrap">
-      {badges.map((badge) => (
-        <span
-          class:list={[
-            'font-label-sm text-label-sm px-xs py-base',
-            badge.variant === 'filled' && 'bg-secondary-container text-on-secondary-container',
-            badge.variant === 'outline' && 'border border-outline',
-            badge.variant === 'accent' && 'border border-secondary text-secondary',
-          ]}
-        >
-          {badge.text}
-        </span>
-      ))}
+{/* Display elements (title, image) run wide (5xl) while the article
+   keeps a readable 3xl measure — deliberate scale contrast. */}
+<main class="pt-lg md:pt-xl pb-xl px-md md:px-lg max-w-5xl mx-auto overflow-x-hidden">
+  <header class="relative mb-lg">
+    {watermark && (
+      <span
+        class="watermark hidden md:block absolute top-0 right-0 font-headline-xl text-[88px] leading-none tracking-[-0.04em] font-extrabold uppercase select-none pointer-events-none"
+        aria-hidden="true"
+      >{watermark}</span>
+    )}
+
+    <div class="relative z-10">
+      {/* Meta line instead of mixed badge boxes — one quiet mono row,
+         accent variant highlighted in secondary. */}
+      <div class="flex items-center flex-wrap gap-x-sm gap-y-xs font-label-sm text-label-sm uppercase tracking-[0.08em] mb-md">
+        <span class="text-secondary" aria-hidden="true">&gt;&gt;</span>
+        {badges.map((badge, i) => (
+          <>
+            {i > 0 && <span class="text-outline-variant select-none" aria-hidden="true">//</span>}
+            <span class={badge.variant === 'accent' ? 'text-secondary' : 'text-outline'}>{badge.text}</span>
+          </>
+        ))}
+      </div>
+      <h1 class="font-headline-xl text-[clamp(36px,7vw,72px)] leading-[1.02] tracking-[-0.03em] font-extrabold text-primary uppercase break-words mb-md">
+        {title}<span class="text-secondary" aria-hidden="true">_</span>
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant border-l-thick border-secondary pl-md max-w-2xl">
+        {description}
+      </p>
     </div>
-    <h1 class="font-headline-xl text-headline-xl text-primary mb-md uppercase tracking-tighter">
-      {title}
-    </h1>
-    <p class="font-body-lg text-body-lg text-outline max-w-2xl">
-      {description}
-    </p>
   </header>
 
-  <div class="mb-lg border-thick border-primary hard-shadow-red overflow-hidden bg-surface-container">
-    <img alt={heroImage.alt} class="w-full grayscale contrast-125 object-cover h-[400px]" src={heroImage.src} />
-  </div>
+  <figure class="mb-xl border-thin border-primary brutalist-shadow bg-surface-container overflow-hidden">
+    <figcaption class="flex items-center justify-between gap-md px-sm py-xs border-b-thin border-primary bg-surface-container-low">
+      <span class="font-label-sm text-label-sm text-secondary uppercase">&gt;&gt; IMG_001</span>
+      <span class="flex items-center gap-xs" aria-hidden="true">
+        <span class="w-[8px] h-[8px] bg-secondary-container"></span>
+        <span class="w-[8px] h-[8px] bg-outline"></span>
+        <span class="w-[8px] h-[8px] bg-outline-variant"></span>
+      </span>
+    </figcaption>
+    <img alt={heroImage.alt} class="w-full grayscale object-cover aspect-[16/9] md:aspect-[21/9]" src={heroImage.src} />
+  </figure>
 
-  <article class="space-y-md text-on-background font-body-md max-w-3xl">
+  <article class="text-on-background max-w-3xl">
     <slot />
   </article>
 
-  <section class="mt-xl pt-lg border-t-thick border-primary">
-    <a class="group flex items-center gap-md border border-outline p-md hover:border-secondary hover:bg-surface-container transition-all active:translate-y-0.5" href={lang === 'en' ? '/' : '/de/'}>
-      <span class="material-symbols-outlined text-[48px] group-hover:text-secondary">arrow_back</span>
-      <div>
-        <div class="font-label-sm text-label-sm text-outline uppercase mb-xs">{t('backToHome.label', lang)}</div>
-        <div class="font-headline-md text-headline-md text-primary group-hover:text-secondary">CAPSLOCKED.DEV</div>
-      </div>
+  <section class="mt-xl pt-lg border-t-thin border-outline-variant">
+    <div class="font-label-sm text-label-sm text-outline uppercase mb-md" aria-hidden="true">// EOF</div>
+    <a
+      class="group inline-flex items-center gap-xs font-label-md text-label-md uppercase tracking-[0.1em] text-on-surface-variant hover:text-secondary transition-colors"
+      href={homeHref}
+    >
+      <span class="material-symbols-outlined text-[18px] transition-transform group-hover:-translate-x-1" aria-hidden="true">arrow_back</span>
+      <span>{t('backToHome.label', lang)}</span>
+      <span class="text-primary group-hover:text-secondary transition-colors">CAPSLOCKED.DEV</span>
     </a>
   </section>
 </main>
+
+<style>
+  /* Outlined ghost type behind the header — depth without weight. */
+  .watermark {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--c-outline-variant);
+  }
+</style>
