@@ -1,0 +1,160 @@
+---
+/* ASCII circuit traces that leave the image's edge like pins of a chip,
+   with signal pulses running along them. Two stacked layers with identical
+   metrics like the hero swirl: traces in outline color, pulses in secondary.
+   Grid is regenerated to fit whenever the box resizes. */
+---
+
+<div class="ascii-circuit absolute inset-0" aria-hidden="true">
+    <pre class="circuit-layer text-outline opacity-50" data-circuit-base></pre>
+    <pre class="circuit-layer text-secondary" data-circuit-pulse></pre>
+</div>
+
+<style>
+    .ascii-circuit {
+        mask-image: linear-gradient(to right, black 70%, transparent),
+            linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+        mask-composite: intersect;
+    }
+
+    /* line-height 1 so vertical box-drawing glyphs join into solid traces. */
+    .circuit-layer {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        overflow: hidden;
+        font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+        font-size: 12px;
+        line-height: 1;
+        letter-spacing: 0;
+        white-space: pre;
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<script>
+    type Cell = { x: number; y: number; ch: string };
+
+    const GLYPH: Record<string, string> = {
+        LR: "─", DU: "│", DL: "┐", LU: "┘", DR: "┌", RU: "└",
+    };
+    const glyph = (a: string, b: string) => GLYPH[[a, b].sort().join("")];
+    const opposite: Record<string, string> = { L: "R", R: "L", U: "D", D: "U" };
+    const step: Record<string, [number, number]> = { R: [1, 0], U: [0, -1], D: [0, 1] };
+
+    function generate(cols: number, rows: number): Cell[][] {
+        const used = new Uint8Array(cols * rows);
+        const free = (x: number, y: number) =>
+            x >= 0 && x < cols && y >= 0 && y < rows && !used[x + cols * y];
+        const traces: Cell[][] = [];
+
+        for (let attempt = 0; attempt < rows * 3 && traces.length < rows / 2; attempt++) {
+            let y = Math.floor(Math.random() * rows);
+            let x = 0;
+            if (!free(x, y - 1) || !free(x, y) || !free(x, y + 1)) continue;
+
+            const path: Cell[] = [];
+            let from = "L";
+            let dir = "R";
+            let vertical = 0;
+            const endX = cols * (0.5 + Math.random() * 0.45);
+
+            while (x < endX) {
+                // No bends in the first columns: they sit under the image edge.
+                if (dir === "R" && x > 6 && Math.random() < 0.08) {
+                    dir = Math.random() < 0.5 ? "U" : "D";
+                    vertical = 2 + Math.floor(Math.random() * 4);
+                } else if (dir !== "R" && vertical-- <= 0) {
+                    dir = "R";
+                }
+                if (dir !== "R" && !free(x + step[dir][0], y + step[dir][1])) dir = "R";
+                const [dx, dy] = step[dir];
+                if (!free(x + dx, y + dy)) break;
+                path.push({ x, y, ch: glyph(from, dir) });
+                used[x + cols * y] = 1;
+                from = opposite[dir];
+                x += dx;
+                y += dy;
+            }
+            if (path.length < 12) {
+                path.forEach((c) => (used[c.x + cols * c.y] = 0));
+                continue;
+            }
+            path.push({ x, y, ch: "●" });
+            used[x + cols * y] = 1;
+            traces.push(path);
+        }
+        return traces;
+    }
+
+    function render(cols: number, rows: number, cells: Cell[]): string {
+        const grid = Array.from({ length: rows }, () => Array(cols).fill(" "));
+        cells.forEach((c) => (grid[c.y][c.x] = c.ch));
+        return grid.map((r) => r.join("")).join("\n");
+    }
+
+    function initCircuit() {
+        const root = document.querySelector<HTMLElement>(".ascii-circuit");
+        if (!root || root.dataset.circuitInit) return;
+        root.dataset.circuitInit = "1";
+        const base = root.querySelector<HTMLElement>("[data-circuit-base]")!;
+        const pulse = root.querySelector<HTMLElement>("[data-circuit-pulse]")!;
+        const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const probe = document.createElement("span");
+        probe.textContent = "─".repeat(10);
+        base.append(probe);
+        const cw = probe.getBoundingClientRect().width / 10;
+        // An inline span measures the font's content box, not the 1.0 line pitch.
+        const ch = parseFloat(getComputedStyle(base).lineHeight);
+        probe.remove();
+
+        let cols = 0, rows = 0;
+        let traces: Cell[][] = [];
+        let phases: number[] = [];
+
+        const layout = () => {
+            cols = Math.floor(root.clientWidth / cw);
+            rows = Math.floor(root.clientHeight / ch);
+            if (!cols || !rows) {
+                base.textContent = pulse.textContent = "";
+                traces = [];
+                return;
+            }
+            traces = generate(cols, rows);
+            phases = traces.map(() => Math.random());
+            base.textContent = render(cols, rows, traces.flat());
+        };
+
+        const drawPulses = (now: number) => {
+            const lit: Cell[] = [];
+            traces.forEach((t, i) => {
+                const cycle = t.length + 24;
+                const head = Math.floor((now * 0.012 + phases[i] * cycle) % cycle);
+                for (let k = 0; k < 4; k++) if (t[head - k]) lit.push(t[head - k]);
+            });
+            pulse.textContent = render(cols, rows, lit);
+        };
+
+        new ResizeObserver(() => {
+            layout();
+            if (still) drawPulses(0);
+        }).observe(root);
+
+        if (still) return;
+        let last = 0;
+        const loop = (now: number) => {
+            if (!document.body.contains(root)) return;
+            if (now - last > 50) {
+                last = now;
+                if (traces.length) drawPulses(now);
+            }
+            requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+    }
+
+    initCircuit();
+    document.addEventListener("astro:page-load", initCircuit);
+</script>

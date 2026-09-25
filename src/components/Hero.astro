@@ -10,10 +10,10 @@ interface Props {
 const { eyebrow, title, titleAccent, text } = Astro.props;
 ---
 
-{/* Fills the viewport below header (~75px) + main's pt-xl (80px), so the
-   divider lands roughly at the fold. */}
+{/* Fills the viewport below header + main's top padding, so the divider lands
+   roughly at the fold. Both shrink on mobile, hence the two subtrahends. */}
 <section
-    class="relative overflow-hidden flex flex-col justify-center min-h-[calc(100svh-160px)]"
+    class="relative overflow-hidden flex flex-col justify-center min-h-[calc(100svh-104px)] md:min-h-[calc(100svh-160px)]"
 >
     {/* ASCII swirl backdrop — pool-drain vortex rendered as a dithered
        density field (log-spiral bands, ASCII ramp). Eight phase-shifted
@@ -782,7 +782,7 @@ const { eyebrow, title, titleAccent, text } = Astro.props;
         </div>
     </div>
 
-    <div class="relative z-10 py-xl">
+    <div class="relative z-10 py-lg md:py-xl">
         {/* Terminal-prompt eyebrow: accent prompt char, muted label, blinking
            block cursor. */}
         <div
@@ -793,7 +793,7 @@ const { eyebrow, title, titleAccent, text } = Astro.props;
             <span class="eyebrow-cursor bg-secondary" aria-hidden="true"></span>
         </div>
         <h1
-            class="font-headline-xl text-[clamp(2.5rem,9vw,6rem)] leading-[1.02] tracking-[-0.04em] font-extrabold break-words mb-lg"
+            class="font-headline-xl text-[clamp(2.5rem,9vw,6rem)] leading-[1.02] tracking-[-0.04em] font-extrabold break-words mb-md md:mb-lg"
         >
             {title}{
                 titleAccent && <span class="text-secondary">{titleAccent}</span>

@@ -7,7 +7,7 @@ Feature ideas for capslocked.dev, roughly ordered by impact.
 ## Implemented
 
 ### ~~Reading Progress Bar~~ ✓
-3px red (#ff5540) sticky bar on blog pages. CSS `animation-timeline: scroll(root)` with JS fallback for Safari.
+3px red (#d61132) sticky bar on blog pages. CSS `animation-timeline: scroll(root)` with JS fallback for Safari.
 
 ### ~~Estimated Reading Time (Auto-calculated)~~ ✓
 Auto-calculated from word count at build time (~200 words/min). Localized: "3 MIN READ" / "3 MIN LESEZEIT".

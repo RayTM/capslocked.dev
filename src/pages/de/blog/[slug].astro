@@ -5,6 +5,7 @@ import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import SubpageLayout from '../../../components/SubpageLayout.astro';
 import type { Badge } from '../../../components/SubpageLayout.astro';
+import { formatDate } from '../../../data/posts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -27,7 +28,7 @@ const minutes = Math.max(1, Math.ceil(words / 200));
 const readTime = `${minutes} MIN LESEZEIT`;
 
 const badges: Badge[] = [
-  { text: date.replace(/\./g, ' ').replace(/(\d{4}) (\d{2}) (\d{2})/, '$3 $2 $1').toUpperCase(), variant: 'filled' },
+  { text: formatDate(date), variant: 'filled' },
   { text: readTime, variant: 'outline' },
   { text: category, variant: 'accent' },
 ];
@@ -40,7 +41,6 @@ const badges: Badge[] = [
     badges={badges}
     title={title}
     description={description}
-    heroImage={heroImage}
   >
     <div class="prose-brutalist">
       <Content />

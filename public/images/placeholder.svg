@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">
+  <rect width="1200" height="1200" fill="#1b1b1b"/>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" stroke="#2a2a2a" stroke-width="1" fill="none"/>
+  </pattern>
+  <rect width="1200" height="1200" fill="url(#grid)"/>
+  <rect x="60" y="60" width="1080" height="1080" stroke="#444748" stroke-width="3" fill="none"/>
+  <text x="600" y="560" font-family="monospace" font-size="42" font-weight="700" fill="#8e9192" text-anchor="middle" letter-spacing="6">NO_IMAGE</text>
+  <text x="600" y="620" font-family="monospace" font-size="24" fill="#d61132" text-anchor="middle" letter-spacing="3">// IMG_NOT_FOUND</text>
+  <rect x="540" y="660" width="120" height="3" fill="#d61132"/>
+</svg>

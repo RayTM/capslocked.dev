@@ -7,14 +7,13 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import PostRow from "../components/PostRow.astro";
 import LinkRow from "../components/LinkRow.astro";
-import { projects } from "../data/projects";
+import { homeTeasers } from "../data/projects";
 import { posts } from "../data/posts";
 import { links } from "../data/links";
 
 const lang = "en";
 const altLangUrl = "/de";
-const highlighted = projects.filter((p) => p.highlighted);
-const grid = projects.filter((p) => !p.highlighted);
+const { highlight, secondary } = homeTeasers();
 ---
 
 <BaseLayout
@@ -29,7 +28,7 @@ const grid = projects.filter((p) => !p.highlighted);
         variant="startpage"
         altLangUrl={altLangUrl}
     />
-    <main class="max-w-7xl mx-auto px-md md:px-lg pt-xl">
+    <main class="max-w-7xl mx-auto px-md md:px-lg pt-lg md:pt-xl">
         <!-- Hero Section -->
         <Hero
             eyebrow="HEY, I AM"
@@ -38,54 +37,40 @@ const grid = projects.filter((p) => !p.highlighted);
             text="TYPO3 and PHP developer, currently leveling up in DevOps. By day I build extensions and backends — after hours I wrestle with Docker, CI/CD pipelines and self-hosted infrastructure. This site runs on it."
         />
 
-        <!-- Highlighted Project -->
-        <section class="py-xl" id="projects">
-            <SectionHeading>CURRENT_PROJECT</SectionHeading>
-            {
-                highlighted.map((project) => (
-                    <ProjectCard
-                        project={project}
-                        lang={lang}
-                        variant="highlighted"
-                    />
-                ))
-            }
-            {/* Grid projects — max 3 cols */}
-            {
-                grid.length > 0 && (
-                    <div
-                        class:list={[
-                            "grid gap-md mt-lg",
-                            grid.length === 1
-                                ? "grid-cols-1"
-                                : grid.length === 2
-                                  ? "grid-cols-1 md:grid-cols-2"
-                                  : "grid-cols-1 md:grid-cols-3",
-                        ]}
-                    >
-                        {grid.map((project) => (
-                            <ProjectCard
-                                project={project}
-                                lang={lang}
-                                variant="grid"
-                            />
-                        ))}
-                    </div>
-                )
-            }
+        <!-- Projects — one highlight on top, two teasers below -->
+        <section class="py-lg md:py-xl" id="projects">
+            <SectionHeading href="/projects" linkLabel="ALL_PROJECTS">CURRENT_PROJECTS</SectionHeading>
+            {highlight && (
+                <ProjectCard
+                    project={highlight}
+                    lang={lang}
+                    variant="highlighted"
+                />
+            )}
+            {secondary.length > 0 && (
+                <div class="grid gap-md mt-md md:mt-lg grid-cols-1 md:grid-cols-2">
+                    {secondary.map((project) => (
+                        <ProjectCard
+                            project={project}
+                            lang={lang}
+                            variant="grid"
+                        />
+                    ))}
+                </div>
+            )}
         </section>
 
         <!-- Blog -->
-        <section class="py-xl" id="blog">
-            <SectionHeading>RECENT_LOGS</SectionHeading>
+        <section class="py-lg md:py-xl" id="blog">
+            <SectionHeading href="/blog" linkLabel="ALL_LOGS">RECENT_LOGS</SectionHeading>
             <div>
                 {posts.map((post) => <PostRow post={post} lang={lang} />)}
             </div>
         </section>
 
         <!-- Connect -->
-        <section class="py-xl" id="connect">
-            <SectionHeading>ESTABLISH_UPLINK</SectionHeading>
+        <section class="py-lg md:py-xl" id="connect">
+            <SectionHeading>ESTABLISH_CONNECTION</SectionHeading>
             <div>
                 {links.map((link) => <LinkRow link={link} lang={lang} />)}
             </div>

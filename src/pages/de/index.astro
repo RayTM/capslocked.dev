@@ -7,19 +7,18 @@ import SectionHeading from '../../components/SectionHeading.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import PostRow from '../../components/PostRow.astro';
 import LinkRow from '../../components/LinkRow.astro';
-import { projects } from '../../data/projects';
+import { homeTeasers } from '../../data/projects';
 import { posts } from '../../data/posts';
 import { links } from '../../data/links';
 
 const lang = 'de';
 const altLangUrl = '/';
-const highlighted = projects.filter(p => p.highlighted);
-const grid = projects.filter(p => !p.highlighted);
+const { highlight, secondary } = homeTeasers();
 ---
 
 <BaseLayout title="CAPSLOCKED.DEV // ROOT-ZUGANG" gridBg={true} lang={lang} construction={false}>
   <Header lang={lang} activePage="projects" variant="startpage" altLangUrl={altLangUrl} />
-  <main class="max-w-7xl mx-auto px-md md:px-lg pt-xl">
+  <main class="max-w-7xl mx-auto px-md md:px-lg pt-lg md:pt-xl">
     <!-- Hero Section -->
     <Hero
       eyebrow="HALLO, ICH BIN"
@@ -28,19 +27,15 @@ const grid = projects.filter(p => !p.highlighted);
       text="TYPO3- und PHP-Entwickler, der sich gerade in DevOps einarbeitet. Tagsüber baue ich Extensions und Backends — danach geht es um Docker, CI/CD-Pipelines und selbst gehostete Infrastruktur. Diese Seite läuft darauf."
     />
 
-    <!-- Hervorgehobenes Projekt -->
-    <section class="py-xl" id="projects">
-      <SectionHeading>AKTUELLES_PROJEKT</SectionHeading>
-      {highlighted.map((project) => (
-        <ProjectCard project={project} lang={lang} variant="highlighted" />
-      ))}
-      {/* Raster-Projekte — max 3 Spalten */}
-      {grid.length > 0 && (
-        <div class:list={[
-          'grid gap-md mt-lg',
-          grid.length === 1 ? 'grid-cols-1' : grid.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-3',
-        ]}>
-          {grid.map((project) => (
+    <!-- Projekte — ein Highlight oben, zwei Teaser darunter -->
+    <section class="py-lg md:py-xl" id="projects">
+      <SectionHeading href="/de/projects" linkLabel="ALLE_PROJEKTE">AKTUELLE_PROJEKTE</SectionHeading>
+      {highlight && (
+        <ProjectCard project={highlight} lang={lang} variant="highlighted" />
+      )}
+      {secondary.length > 0 && (
+        <div class="grid gap-md mt-md md:mt-lg grid-cols-1 md:grid-cols-2">
+          {secondary.map((project) => (
             <ProjectCard project={project} lang={lang} variant="grid" />
           ))}
         </div>
@@ -48,8 +43,8 @@ const grid = projects.filter(p => !p.highlighted);
     </section>
 
     <!-- Blog -->
-    <section class="py-xl" id="blog">
-      <SectionHeading>AKTUELLE_EINTRÄGE</SectionHeading>
+    <section class="py-lg md:py-xl" id="blog">
+      <SectionHeading href="/de/blog" linkLabel="ALLE_EINTRÄGE">AKTUELLE_EINTRÄGE</SectionHeading>
       <div>
         {posts.map((post) => (
           <PostRow post={post} lang={lang} />
@@ -58,8 +53,8 @@ const grid = projects.filter(p => !p.highlighted);
     </section>
 
     <!-- Kontakt -->
-    <section class="py-xl" id="connect">
-      <SectionHeading>UPLINK_HERSTELLEN</SectionHeading>
+    <section class="py-lg md:py-xl" id="connect">
+      <SectionHeading>VERBINDUNG_HERSTELLEN</SectionHeading>
       <div>
         {links.map((link) => (
           <LinkRow link={link} lang={lang} />

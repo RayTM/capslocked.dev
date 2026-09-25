@@ -1,6 +1,6 @@
 ---
 import type { Post } from '../data/posts';
-import { postHref } from '../data/posts';
+import { formatDate, postHref } from '../data/posts';
 
 interface Props {
   post: Post;
@@ -17,7 +17,7 @@ const href = postHref(post.slug, lang);
   href={href}
 >
   <div class="flex flex-col md:flex-row md:items-baseline gap-xs md:gap-md min-w-0">
-    <span class="font-label-md text-label-md text-outline shrink-0 md:w-[120px]">{tr.date}</span>
+    <span class="font-label-md text-label-md text-outline shrink-0 md:w-[120px]">{formatDate(tr.date)}</span>
     <h3 class="dot-font font-headline-md text-[18px] md:text-headline-md uppercase text-primary break-words min-w-0">
       {tr.title}
     </h3>

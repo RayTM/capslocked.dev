@@ -6,73 +6,74 @@ interface Props {
   project: Project;
   lang: string;
   variant?: 'highlighted' | 'grid';
+  /* Emits data-* attributes the projects page filter reads. */
+  filterable?: boolean;
 }
 
-const { project, lang, variant = 'highlighted' } = Astro.props;
+const { project, lang, variant = 'highlighted', filterable = false } = Astro.props;
 const tr = project.translations[lang] || project.translations.en;
 const href = project.comingSoon ? undefined : projectHref(project.slug, lang);
 const imgAlt = project.image.alt[lang as 'en' | 'de'] || project.image.alt.en;
 const isComing = !!project.comingSoon;
+const isHighlight = variant === 'highlighted';
+const tagLabels = project.tags.map((tag) => tag[lang as 'en' | 'de'] || tag.en);
+const filterAttrs = filterable
+  ? { 'data-project-card': '', 'data-tags': tagLabels.join('|'), 'data-active': String(project.active) }
+  : {};
+/* Rendered twice — right of the title on desktop, inside the tag row on mobile. */
+const statusClass =
+  'font-label-sm text-[10px] md:text-label-sm px-xs py-base border-thin border-secondary text-secondary shrink-0';
 ---
 
-{variant === 'highlighted' ? (
-  <a href={href} class:list={[
-    'group border-thin border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col md:flex-row overflow-hidden block',
+<a
+  href={href}
+  {...filterAttrs}
+  class:list={[
+    'group border-thin border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex overflow-hidden',
+    isHighlight ? 'flex-col md:flex-row' : 'flex-col',
     isComing && 'opacity-50 pointer-events-none cursor-default',
-  ]}>
-    <div class="duotone-wrap relative overflow-hidden w-full md:w-2/5 shrink-0 border-b md:border-b-0 md:border-r border-primary">
-      <img
-        class="w-full h-64 md:h-full object-cover grayscale"
-        alt={imgAlt}
-        src={project.image.src}
-      />
-      {isComing && (
-        <div class="absolute inset-0 flex items-center justify-center bg-black/60">
-          <span class="font-headline-lg text-headline-lg text-white uppercase tracking-widest">COMING_SOON</span>
-        </div>
-      )}
-    </div>
-    <div class="p-md md:p-lg flex flex-col justify-center min-w-0">
-      <div class="flex flex-wrap justify-between items-start gap-xs mb-sm">
-        <h3 class="dot-font font-headline-md text-[20px] md:text-headline-md uppercase break-words min-w-0">{tr.title}</h3>
-        <span class="font-label-sm text-[10px] md:text-label-sm px-xs py-base border-thin border-secondary text-secondary shrink-0">{tr.status}</span>
+  ]}
+>
+  <div
+    class:list={[
+      'relative overflow-hidden border-primary',
+      isHighlight ? 'w-full md:w-2/5 shrink-0 border-b md:border-b-0 md:border-r' : 'border-b',
+    ]}
+  >
+    {/* Desaturated at rest, full color on card hover — the image itself is the hover state.
+       object-cover, never contain: real screenshots have their own aspect ratio and
+       would sit letterboxed in the middle of the frame. Flat 2:1 band on mobile so a
+       card doesn't eat a whole screen; the highlight goes square on desktop because
+       its image column is only 2/5 of the card. */}
+    <img
+      class:list={[
+        'w-full aspect-[2/1] object-cover object-center grayscale group-hover:grayscale-0 transition-[filter] duration-300',
+        isHighlight ? 'md:aspect-square' : 'md:aspect-[4/3]',
+      ]}
+      alt={imgAlt}
+      src={project.image.src}
+      onerror="this.onerror=null;this.src='/images/placeholder.svg'"
+    />
+    {isComing && (
+      <div class="absolute inset-0 flex items-center justify-center bg-black/60">
+        <span class="font-headline-lg text-headline-lg text-white uppercase tracking-widest">COMING_SOON</span>
       </div>
-      <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
-      <div class="flex flex-wrap gap-x-sm gap-y-xs">
-        {project.tags.map((tag) => (
-          <span class="font-label-sm text-[10px] md:text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
-        ))}
-      </div>
+    )}
+  </div>
+  <div class:list={['p-md md:p-lg flex flex-col justify-center min-w-0', !isHighlight && 'flex-grow']}>
+    {/* Mobile keeps the title on a line of its own — a wrapping title plus a
+       right-floated status badge left a ragged two-column mess on narrow screens.
+       The badge moves down into the tag row instead. */}
+    <div class="flex justify-between items-start gap-xs mb-sm">
+      <h3 class="dot-font font-headline-md text-[20px] md:text-headline-md uppercase break-words min-w-0">{tr.title}</h3>
+      <span class:list={['hidden md:inline-block', statusClass]}>{tr.status}</span>
     </div>
-  </a>
-) : (
-  <a href={href} class:list={[
-    'group border-thin border-primary bg-surface-container-low brutalist-shadow-hover transition-all flex flex-col overflow-hidden block',
-    isComing && 'opacity-50 pointer-events-none cursor-default',
-  ]}>
-    <div class="duotone-wrap relative overflow-hidden border-b border-primary">
-      <img
-        class="w-full h-72 object-cover grayscale"
-        alt={imgAlt}
-        src={project.image.src}
-      />
-      {isComing && (
-        <div class="absolute inset-0 flex items-center justify-center bg-black/60">
-          <span class="font-headline-lg text-headline-lg text-white uppercase tracking-widest">COMING_SOON</span>
-        </div>
-      )}
+    <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
+    <div class="flex flex-wrap items-center gap-x-sm gap-y-xs">
+      <span class:list={['md:hidden mr-xs', statusClass]}>{tr.status}</span>
+      {tagLabels.map((label) => (
+        <span class="font-label-sm text-[10px] md:text-label-sm text-outline uppercase">{label}</span>
+      ))}
     </div>
-    <div class="p-md md:p-lg flex flex-col justify-center flex-grow min-w-0">
-      <div class="flex flex-wrap justify-between items-start gap-xs mb-sm">
-        <h3 class="dot-font font-headline-md text-[20px] md:text-headline-md uppercase break-words min-w-0">{tr.title}</h3>
-        <span class="font-label-sm text-[10px] md:text-label-sm px-xs py-base border-thin border-secondary text-secondary shrink-0">{tr.status}</span>
-      </div>
-      <p class="font-body-md text-body-md text-on-surface-variant mb-md">{tr.description}</p>
-      <div class="flex flex-wrap gap-x-sm gap-y-xs">
-        {project.tags.map((tag) => (
-          <span class="font-label-sm text-[10px] md:text-label-sm text-outline uppercase">{tag[lang as 'en' | 'de'] || tag.en}</span>
-        ))}
-      </div>
-    </div>
-  </a>
-)}
+  </div>
+</a>

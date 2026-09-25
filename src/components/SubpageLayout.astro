@@ -1,5 +1,6 @@
 ---
 import { t } from '../data/i18n';
+import AsciiCircuit from './AsciiCircuit.astro';
 
 export interface Badge {
   text: string;
@@ -11,7 +12,7 @@ interface Props {
   badges: Badge[];
   title: string;
   description: string;
-  heroImage: {
+  heroImage?: {
     src: string;
     alt: string;
   };
@@ -25,11 +26,17 @@ const watermark = badges.find((b) => b.variant === 'accent')?.text;
 
 {/* Display elements (title, image) run wide (5xl) while the article
    keeps a readable 3xl measure — deliberate scale contrast. */}
-<main class="pt-lg md:pt-xl pb-xl px-md md:px-lg max-w-5xl mx-auto overflow-x-hidden">
-  <header class="relative mb-lg">
+{/* w-full is load-bearing: mx-auto on a flex-column child makes the box
+   shrink-to-fit, so a wide terminal block used to push the whole page past the
+   viewport and let it scroll sideways on phones. */}
+<main class="w-full pt-md md:pt-xl pb-lg md:pb-xl px-md md:px-lg max-w-5xl mx-auto overflow-x-hidden">
+  <header
+    class="relative mb-md md:mb-lg [container-type:inline-size]"
+    style={watermark ? `--wm-len:${watermark.length}` : undefined}
+  >
     {watermark && (
       <span
-        class="watermark hidden md:block absolute top-0 right-0 font-headline-xl text-[88px] leading-none tracking-[-0.04em] font-extrabold uppercase select-none pointer-events-none"
+        class="watermark absolute top-0 inset-x-0 text-right font-headline-xl leading-none tracking-[-0.02em] font-extrabold uppercase select-none pointer-events-none"
         aria-hidden="true"
       >{watermark}</span>
     )}
@@ -47,7 +54,7 @@ const watermark = badges.find((b) => b.variant === 'accent')?.text;
         ))}
       </div>
       <h1 class="font-headline-xl text-[clamp(36px,7vw,72px)] leading-[1.02] tracking-[-0.03em] font-extrabold text-primary uppercase break-words mb-md">
-        {title}<span class="text-secondary" aria-hidden="true">_</span>
+        {title}
       </h1>
       <p class="font-body-lg text-body-lg text-on-surface-variant border-l-thick border-secondary pl-md max-w-2xl">
         {description}
@@ -55,23 +62,37 @@ const watermark = badges.find((b) => b.variant === 'accent')?.text;
     </div>
   </header>
 
-  <figure class="mb-xl border-thin border-primary brutalist-shadow bg-surface-container overflow-hidden">
-    <figcaption class="flex items-center justify-between gap-md px-sm py-xs border-b-thin border-primary bg-surface-container-low">
-      <span class="font-label-sm text-label-sm text-secondary uppercase">&gt;&gt; IMG_001</span>
-      <span class="flex items-center gap-xs" aria-hidden="true">
-        <span class="w-[8px] h-[8px] bg-secondary-container"></span>
-        <span class="w-[8px] h-[8px] bg-outline"></span>
-        <span class="w-[8px] h-[8px] bg-outline-variant"></span>
-      </span>
-    </figcaption>
-    <img alt={heroImage.alt} class="w-full grayscale object-cover aspect-[16/9] md:aspect-[21/9]" src={heroImage.src} />
-  </figure>
+  {heroImage && (
+    <figure class="group mb-lg md:mb-xl flex flex-wrap gap-md">
+      {/* Natural aspect ratio instead of a fixed frame; the caption wraps below once the image fills the row. */}
+      <div class="relative z-10 shrink-0 max-w-full">
+        <img alt={heroImage.alt} class="block w-auto h-auto max-w-full max-h-[560px] border-thin border-outline-variant grayscale transition-[filter] duration-300 group-hover:grayscale-0" src={heroImage.src} onerror="this.onerror=null;this.src='/images/placeholder.svg'" />
+        <span class="absolute -top-xs -left-xs w-sm h-sm border-t-thick border-l-thick border-secondary" aria-hidden="true"></span>
+        <span class="absolute -top-xs -right-xs w-sm h-sm border-t-thick border-r-thick border-secondary" aria-hidden="true"></span>
+        <span class="absolute -bottom-xs -left-xs w-sm h-sm border-b-thick border-l-thick border-secondary" aria-hidden="true"></span>
+        <span class="absolute -bottom-xs -right-xs w-sm h-sm border-b-thick border-r-thick border-secondary" aria-hidden="true"></span>
+      </div>
+      <div class="flex-1 min-w-[200px] flex flex-col">
+        {/* Row height comes from the image, so the traces only get space beside it; wrapped below, they collapse to 0.
+           -left-lg tucks them under the image so they read as its pins. */}
+        <div class="relative flex-1 min-h-0 mb-sm">
+          <div class="absolute inset-y-0 right-0 -left-lg">
+            <AsciiCircuit />
+          </div>
+        </div>
+        <figcaption class="border-t-thin border-outline-variant pt-sm">
+          <span class="block font-label-sm text-label-sm text-secondary uppercase tracking-[0.08em] mb-xs">FIG_01</span>
+          <span class="block font-body-md text-body-md text-on-surface-variant">{heroImage.alt}</span>
+        </figcaption>
+      </div>
+    </figure>
+  )}
 
   <article class="text-on-background max-w-3xl">
     <slot />
   </article>
 
-  <section class="mt-xl pt-lg border-t-thin border-outline-variant">
+  <section class="mt-lg md:mt-xl pt-md md:pt-lg border-t-thin border-outline-variant">
     <div class="font-label-sm text-label-sm text-outline uppercase mb-md" aria-hidden="true">// EOF</div>
     <a
       class="group inline-flex items-center gap-xs font-label-md text-label-md uppercase tracking-[0.1em] text-on-surface-variant hover:text-secondary transition-colors"
@@ -89,5 +110,11 @@ const watermark = badges.find((b) => b.variant === 'accent')?.text;
   .watermark {
     color: transparent;
     -webkit-text-stroke: 1px var(--c-outline-variant);
+    /* Auto-fit instead of a fixed 88px: JetBrains Mono advances ~0.6em per glyph,
+       so dividing the header width by the character count keeps even a long
+       category inside the column. Long words used to run past the right edge and
+       get chopped off by the page's overflow-x-hidden. The same math shrinks it
+       to fit phones, which is why it no longer has to be hidden below md. */
+    font-size: clamp(24px, calc(100cqw / (var(--wm-len, 8) * 0.62)), 88px);
   }
 </style>

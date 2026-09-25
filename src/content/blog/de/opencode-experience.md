@@ -1,7 +1,7 @@
 ---
-title: "Bauen mit Silizium"
-description: "Meine erste Session beim Bau von capslocked.dev mit OpenCode — einem KI-Coding-Agenten, der Code schreibt, reviewt und alongside Ihnen ausliefert. Eine Reflexion über Mensch-Maschine-Kollaboration und die Zukunft des Handwerks."
-date: "2025.05.10"
+title: "Ich ließ eine Maschine das bauen"
+description: "Ich habe diese Seite mit einem KI-Coding-Agenten im Terminal gebaut. Hier ist, was funktioniert hat, was nicht – und wo du als Mensch noch eingreifen musst."
+date: "2026-08-20"
 category: "ENTWICKLUNG"
 icon: "arrow_forward"
 heroImage:
@@ -11,32 +11,30 @@ heroImage:
 
 ## 01 // KONTEXT
 
-OpenCode ist ein terminalbasierter KI-Coding-Agent. Sie beschreiben, was Sie wollen, und er schreibt den Code — Gerüstbau, Refactoring, Debugging, sogar Architektur. Er läuft lokal, liest Ihre Codebasis und schlägt Änderungen vor, die Sie akzeptieren, ablehnen oder modifizieren können.
+OpenCode ist ein KI-Coding-Agent im Terminal. Du beschreibst, was du willst, und er schreibt den Code – Gerüstbau, Refactoring, Debugging, sogar Architektur. Er läuft lokal, liest deine Codebasis und liefert dir Änderungen, die du annehmen, ablehnen oder anpassen kannst.
 
-Ich habe beschlossen, ihn für den Bau dieser Seite zu nutzen. Nicht weil ich es nicht selbst könnte — ich schreibe seitdem HTML, als Tabellen-Layouts modern waren — sondern weil ich sehen wollte, was die Maschine mit einer so meinungsstarken Designphilosophie wie dem Brutalismus anfangen würde. Würde sie die Kanten abrunden? Würde sie versuchen, die Ecken zu runden?
+Ich habe ihn genutzt, um diese Seite zu bauen. Nicht weil ich es nicht selbst könnte – sondern weil ich wissen wollte, was eine Maschine mit einer so sturen Designphilosophie wie dem Brutalismus anfängt. Würde sie die Kanten abrunden? Würde sie versuchen, die Ecken zu glätten?
 
-```terminal title="TERMINAL // SITZUNG.LOG" lang="bash"
+```terminal title="TERMINAL // SESSION.LOG" lang="bash"
 $ opencode "diese HTML-Templates in ein Astro-Projekt konvertieren"
-$ opencode "den gemeinsamen Header und Footer in Komponenten extrahieren"
+$ opencode "den gemeinsamen Header und Footer in Komponenten auslagern"
 $ opencode "einen pixellierten Hover-Effekt zur Projektkarte hinzufügen"
 $ opencode "den Dark-Mode-Toggle zum Laufen bringen"
-$ echo "SITZUNG_ABGESCHLOSSEN: 47_DATEIEN_ERSTELLT"
+$ echo "SESSION_ABGESCHLOSSEN: 47_DATEIEN_ERSTELLT"
 ```
 
 ## 02 // PROZESS
 
-Das Erste, was mir auffiel: Der Agent ist schnell. Was mich einen Abend gekostet hätte — gemeinsame Layouts extrahieren, Tailwind konfigurieren, statische Pfade einrichten — erledigte er in unter einer Minute. Das Gerüst war solide. Die Komponentenstruktur war sauber. Er bewahrte sogar die beabsichtigten Design-Inkonsistenzen (wie die unterschiedlichen Border-Radius-Werte zwischen Seiten), ohne sie infrage zu stellen.
+Das Erste, was mir aufgefallen ist: Das Ding ist schnell. Was mir sonst den ganzen Abend gekostet hätte – gemeinsame Layouts auslagern, Tailwind konfigurieren, statische Pfade anlegen – hat er in unter einer Minute erledigt. Das Gerüst war solide, die Komponentenstruktur sauber. Er hat sogar die beabsichtigten Design-Inkonsistenzen (wie die unterschiedlichen Border-Radius-Werte zwischen den Seiten) einfach akzeptiert, ohne sie infrage zu stellen.
 
-Aber hier wurde es interessant. Als ich den pixellierten Hover-Effekt für das Projektkartenbild anforderte, schlug er zunächst einen JavaScript-Canvas-basierten Ansatz vor. Schwer. Unnötig. Ich widersprach: „Nur CSS." Er kam mit einer Filter- und Grid-Overlay-Technik zurück. Besser. Noch nicht ganz richtig. Wir iterierten. Drei Runden später hatten wir eine Lösung, die ein Pseudo-Element-Grid-Muster mit Kontrastskalierung verwendete — reines CSS, keine Laufzeitkosten, brutalistisch wie die Hölle.
+Dann wurde es interessant. Als ich den pixellierten Hover-Effekt für die Projektkarte angefordert habe, kam er zuerst mit einem JavaScript-Canvas-Ansatz. Schwer. Unnötig. Ich habe zurückgegeben: „Nur CSS." Er hat es mit einem Filter- und Grid-Overlay probiert. Besser. Noch nicht ganz. Wir haben iteriert. Drei Runden später hatten wir eine Lösung mit einem Pseudo-Element-Grid und Kontrastskalierung – pures CSS, keine Laufzeitkosten, brutalistisch durch und durch.
 
-- Der Agent glänzt beim Gerüstbau und bei Boilerplate. Komponentenextraktion, Konfiguration, Dateistruktur — in Sekunden erledigt.
-- Designentscheidungen brauchen immer noch ein menschliches Auge. Er schlug abgerundete Ecken auf der Blog-Seite vor. Ich musste die 0px-Radius-Regel durchsetzen.
-- Das Hin und Her ist der Ort des Mehrwerts. Nicht der erste Entwurf, sondern die dritte oder vierte Überarbeitung nach Ihrem Widerspruch.
+- Der Agent ist stark im Gerüstbau und bei Boilerplate. Komponenten auslagern, Config, Dateistruktur – in Sekunden erledigt.
+- Designentscheidungen brauchen trotzdem einen Menschen. Er hat abgerundete Ecken auf der Blog-Seite vorgeschlagen. Ich musste die 0px-Radius-Regel durchziehen.
+- Der Mehrwert steckt nicht im ersten Entwurf. Sondern im dritten oder vierten Anlauf, nachdem du ein paar Mal zurückgegeben hast.
 
 ## 03 // FAZIT
 
-KI-gestützte Entwicklung ist kein Ersatz. Sie ist Verstärkung. Der Agent hat keinen Geschmack. Er hat keine ästhetische Philosophie. Er steht nicht um 3 Uhr nachts auf und überlegt, ob ein 3px-Rand zu dick oder nicht dick genug ist. Aber er kann Ihren Geschmack in einer Geschwindigkeit umsetzen, die jedem Einzelentwickler schwindelig würde.
+KI-gestützte Entwicklung ist kein Ersatz. Sie ist Hebel. Der Agent hat keinen Geschmack. Er hat keine Ästhetik. Er liegt nicht um 3 Uhr nachts wach und überlegt, ob ein 3px-Rand zu dick ist. Aber er setzt deinen Geschmack in einem Tempo um, das jedem Einzelentwickler schwindelig wird.
 
-Das brutale Web braucht menschliche Absicht. Die Maschine liefert die Arbeit. Zusammen bauen sie etwas, das keiner allein bauen könnte. Diese Seite ist der Beweis.
-
-> „Das Raster ist die Struktur. Die Maschine ist der Beschleuniger. Der Mensch ist der Architekt."
+Das brutale Web braucht einen Menschen dahinter. Die Maschine macht die schwere Arbeit. Zusammen bauen sie etwas, das keiner allein hinbekommen hätte. Diese Seite ist der Beweis.

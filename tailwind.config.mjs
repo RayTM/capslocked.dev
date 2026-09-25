@@ -1,3 +1,13 @@
+// Accent color of the design system — change here, all accent tokens derive from it.
+const accent = '#d61132';
+
+// Orange: #ff5540
+// Kobalt Blue: #3d5afe
+// Magenta: #e6007e
+// Petrol: #0b7882
+// Smaragd: #0a7c4d
+// Karminrot: #d61132
+
 /** @type {import('tailwindcss').Config} */
 export default {
   // .mjs included so classes emitted by the remark plugins in src/plugins are scanned
@@ -20,12 +30,6 @@ export default {
         'surface-container-highest': 'var(--c-surface-container-highest)',
         'surface-container': 'var(--c-surface-container)',
         'primary-fixed': 'var(--c-primary-fixed)',
-
-        /* Unused in templates — kept for reference */
-        'tertiary-container': '#e3e2e2',
-        'error': '#ffb4ab',
-        'surface': '#131313',
-        'on-surface': '#e2e2e2',
       },
       borderWidth: {
         'thin': '1px',
@@ -67,5 +71,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    ({ addBase }) => addBase({ ':root': { '--c-accent': accent } }),
+  ],
 };

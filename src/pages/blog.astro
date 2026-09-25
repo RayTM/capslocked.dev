@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PostRow from '../components/PostRow.astro';
+import { posts } from '../data/posts';
+
+const lang = 'en';
+const altLangUrl = '/de/blog';
+---
+
+<BaseLayout
+  title="BLOG // CAPSLOCKED.DEV"
+  gridBg={true}
+  lang={lang}
+  description="All blog posts — engineering journal and development logs by Lukas Walter."
+>
+  <Header lang={lang} activePage="blog" variant="blog" altLangUrl={altLangUrl} />
+  <main class="max-w-7xl mx-auto px-md md:px-lg pt-lg md:pt-xl pb-lg md:pb-xl flex-grow">
+    <SectionHeading>ALL_LOGS</SectionHeading>
+    <div>
+      {posts.map((post) => (
+        <PostRow post={post} lang={lang} />
+      ))}
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

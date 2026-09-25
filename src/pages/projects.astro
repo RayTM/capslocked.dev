@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ProjectFilter from '../components/ProjectFilter.astro';
+import { projects, projectTags } from '../data/projects';
+
+const lang = 'en';
+const altLangUrl = '/de/projects';
+const tags = projectTags(lang);
+---
+
+<BaseLayout
+  title="PROJECTS // CAPSLOCKED.DEV"
+  gridBg={true}
+  lang={lang}
+  description="All projects by Lukas Walter — TYPO3/PHP developer and DevOps learner."
+>
+  <Header lang={lang} activePage="projects" variant="project" altLangUrl={altLangUrl} />
+  <main class="max-w-7xl mx-auto px-md md:px-lg pt-lg md:pt-xl pb-lg md:pb-xl flex-grow">
+    <SectionHeading>ALL_PROJECTS</SectionHeading>
+    <ProjectFilter lang={lang} tags={tags} />
+    {/* Flat grid — the highlight only gets its wide split card on the home page.
+       Here every project is an equal teaser so the filter results stay uniform. */}
+    <div data-project-group class="grid gap-md grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard project={project} lang={lang} variant="grid" filterable />
+      ))}
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

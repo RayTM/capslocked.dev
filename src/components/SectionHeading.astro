@@ -1,7 +1,22 @@
 ---
-/* Just a heading with accent slashes. Content is passed via slot (already translated). */
+interface Props {
+  href?: string;
+  linkLabel?: string;
+}
+const { href, linkLabel } = Astro.props;
 ---
 
-<h2 class="font-headline-lg text-[22px] md:text-[28px] leading-[1.2] font-bold uppercase mb-lg">
-  <span class="text-secondary" aria-hidden="true">//</span> <slot />
-</h2>
+<div class="flex items-center justify-between gap-md mb-md md:mb-lg">
+  <h2 class="font-headline-lg text-[22px] md:text-[28px] leading-[1.2] font-bold uppercase">
+    <span class="text-secondary" aria-hidden="true">//</span> <slot />
+  </h2>
+  {href && linkLabel && (
+    <a
+      href={href}
+      class="font-label-md text-label-md text-outline hover:text-secondary transition-colors flex items-center gap-xs shrink-0 whitespace-nowrap"
+    >
+      {linkLabel}
+      <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
+    </a>
+  )}
+</div>

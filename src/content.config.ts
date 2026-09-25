@@ -6,7 +6,9 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    date: z.string(),
+    /* ISO in, DD.MM.YYYY out (see formatDate in src/data/posts.ts) — the regex
+       makes a wrongly written date a build error instead of a stray format. */
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'date must be ISO: YYYY-MM-DD'),
     category: z.string(),
     icon: z.string().optional(),
     heroImage: z.object({
