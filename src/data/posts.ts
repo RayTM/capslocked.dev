@@ -4,7 +4,7 @@ export interface Post {
 }
 
 export function postHref(slug: string, lang: string): string {
-  return lang === 'en' ? `/blog/${slug}` : `/de/blog/${slug}`;
+  return lang === 'en' ? `/blog/${slug}/` : `/de/blog/${slug}/`;
 }
 
 /**

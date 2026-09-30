@@ -10,7 +10,7 @@ export interface Project {
 }
 
 export function projectHref(slug: string, lang: string): string {
-  return lang === 'en' ? `/project/${slug}` : `/de/project/${slug}`;
+  return lang === 'en' ? `/project/${slug}/` : `/de/project/${slug}/`;
 }
 
 /**

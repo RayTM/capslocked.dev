@@ -12,7 +12,7 @@ import { posts } from "../data/posts";
 import { links } from "../data/links";
 
 const lang = "en";
-const altLangUrl = "/de";
+const altLangUrl = "/de/";
 const { highlight, secondary } = homeTeasers();
 ---
 
@@ -39,7 +39,7 @@ const { highlight, secondary } = homeTeasers();
 
         <!-- Projects — one highlight on top, two teasers below -->
         <section class="py-lg md:py-xl" id="projects">
-            <SectionHeading href="/projects" linkLabel="ALL_PROJECTS">CURRENT_PROJECTS</SectionHeading>
+            <SectionHeading href="/projects/" linkLabel="ALL_PROJECTS">CURRENT_PROJECTS</SectionHeading>
             {highlight && (
                 <ProjectCard
                     project={highlight}
@@ -62,7 +62,7 @@ const { highlight, secondary } = homeTeasers();
 
         <!-- Blog -->
         <section class="py-lg md:py-xl" id="blog">
-            <SectionHeading href="/blog" linkLabel="ALL_LOGS">RECENT_LOGS</SectionHeading>
+            <SectionHeading href="/blog/" linkLabel="ALL_LOGS">RECENT_LOGS</SectionHeading>
             <div>
                 {posts.map((post) => <PostRow post={post} lang={lang} />)}
             </div>

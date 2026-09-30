@@ -29,7 +29,7 @@ const { highlight, secondary } = homeTeasers();
 
     <!-- Projekte — ein Highlight oben, zwei Teaser darunter -->
     <section class="py-lg md:py-xl" id="projects">
-      <SectionHeading href="/de/projects" linkLabel="ALLE_PROJEKTE">AKTUELLE_PROJEKTE</SectionHeading>
+      <SectionHeading href="/de/projects/" linkLabel="ALLE_PROJEKTE">AKTUELLE_PROJEKTE</SectionHeading>
       {highlight && (
         <ProjectCard project={highlight} lang={lang} variant="highlighted" />
       )}
@@ -44,7 +44,7 @@ const { highlight, secondary } = homeTeasers();
 
     <!-- Blog -->
     <section class="py-lg md:py-xl" id="blog">
-      <SectionHeading href="/de/blog" linkLabel="ALLE_EINTRÄGE">AKTUELLE_EINTRÄGE</SectionHeading>
+      <SectionHeading href="/de/blog/" linkLabel="ALLE_EINTRÄGE">AKTUELLE_EINTRÄGE</SectionHeading>
       <div>
         {posts.map((post) => (
           <PostRow post={post} lang={lang} />

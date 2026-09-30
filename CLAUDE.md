@@ -51,6 +51,8 @@ Each `.md` file has frontmatter (title, description, heroImage, etc.) and body c
 
 English pages at `src/pages/`, German at `src/pages/de/`. Content translations are separate `.md` files per language. UI strings use `i18n.ts`.
 
+**Internal links always end with `/`** (`/blog/`, `/de/imprint/`, `postHref()`/`projectHref()` included) — that is the form canonical tags and the sitemap use. The sitemap pairs `/x/` ↔ `/de/x/` as hreflang alternates via its `i18n` option in `astro.config.mjs`, so a page without its counterpart at the same path gets no alternate.
+
 ### Dynamic routes
 
 - `src/pages/blog/[slug].astro` + `src/pages/de/blog/[slug].astro` — blog detail pages from content collections

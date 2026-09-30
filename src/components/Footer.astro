@@ -14,7 +14,7 @@ const { lang = 'en', variant = 'startpage' } = Astro.props;
     <a href={lang === 'en' ? '/' : '/de/'} class="font-headline-sm text-headline-sm text-primary hover:text-secondary transition-colors">CAPSLOCKED.DEV</a>
     <div class="flex flex-wrap items-center justify-center gap-x-md gap-y-xs text-center">
       <span id="page-metrics" class="text-[10px] font-label-sm text-outline uppercase hidden"></span>
-      <a href={lang === 'en' ? '/imprint' : '/de/imprint'} class="font-label-sm text-label-sm text-outline hover:text-secondary transition-colors uppercase">{lang === 'en' ? 'Imprint' : 'Impressum'}</a>
+      <a href={lang === 'en' ? '/imprint/' : '/de/imprint/'} class="font-label-sm text-label-sm text-outline hover:text-secondary transition-colors uppercase">{lang === 'en' ? 'Imprint' : 'Impressum'}</a>
       <span class="font-label-sm text-label-sm text-primary uppercase">{t('footer.copyright', lang)}</span>
     </div>
   </div>
